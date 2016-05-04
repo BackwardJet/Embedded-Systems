@@ -4,7 +4,7 @@
 
 avr.c
 
-CFile1.c
+display.c
 
 lcd.c
 

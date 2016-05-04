@@ -38,7 +38,7 @@ SUBDIRS :=
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../avr.c \
-../CFile1.c \
+../display.c \
 ../lcd.c \
 ../main.c
 
@@ -51,31 +51,31 @@ ASM_SRCS +=
 
 OBJS +=  \
 avr.o \
-CFile1.o \
+display.o \
 lcd.o \
 main.o
 
 OBJS_AS_ARGS +=  \
 avr.o \
-CFile1.o \
+display.o \
 lcd.o \
 main.o
 
 C_DEPS +=  \
 avr.d \
-CFile1.d \
+display.d \
 lcd.d \
 main.d
 
 C_DEPS_AS_ARGS +=  \
 avr.d \
-CFile1.d \
+display.d \
 lcd.d \
 main.d
 
-OUTPUT_FILE_PATH +=Project3_Music-Player.elf
+OUTPUT_FILE_PATH +=27466929.elf
 
-OUTPUT_FILE_PATH_AS_ARGS +=Project3_Music-Player.elf
+OUTPUT_FILE_PATH_AS_ARGS +=27466929.elf
 
 ADDITIONAL_DEPENDENCIES:=
 
@@ -128,13 +128,13 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER_SCRIPT_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR/GNU Linker : 4.9.2
-	$(QUOTE)C:\Program Files\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="Project3_Music-Player.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega32 -B "C:\Program Files\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.98\gcc\dev\atmega32"  
+	$(QUOTE)C:\Program Files\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="27466929.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega32 -B "C:\Program Files\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.0.98\gcc\dev\atmega32"  
 	@echo Finished building target: $@
-	"C:\Program Files\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "Project3_Music-Player.elf" "Project3_Music-Player.hex"
-	"C:\Program Files\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "Project3_Music-Player.elf" "Project3_Music-Player.eep" || exit 0
-	"C:\Program Files\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "Project3_Music-Player.elf" > "Project3_Music-Player.lss"
-	"C:\Program Files\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "Project3_Music-Player.elf" "Project3_Music-Player.srec"
-	"C:\Program Files\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "Project3_Music-Player.elf"
+	"C:\Program Files\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "27466929.elf" "27466929.hex"
+	"C:\Program Files\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "27466929.elf" "27466929.eep" || exit 0
+	"C:\Program Files\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "27466929.elf" > "27466929.lss"
+	"C:\Program Files\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "27466929.elf" "27466929.srec"
+	"C:\Program Files\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "27466929.elf"
 	
 	
 
@@ -146,5 +146,5 @@ $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER
 clean:
 	-$(RM) $(OBJS_AS_ARGS) $(EXECUTABLES)  
 	-$(RM) $(C_DEPS_AS_ARGS)   
-	rm -rf "Project3_Music-Player.elf" "Project3_Music-Player.a" "Project3_Music-Player.hex" "Project3_Music-Player.lss" "Project3_Music-Player.eep" "Project3_Music-Player.map" "Project3_Music-Player.srec" "Project3_Music-Player.usersignatures"
+	rm -rf "27466929.elf" "27466929.a" "27466929.hex" "27466929.lss" "27466929.eep" "27466929.map" "27466929.srec" "27466929.usersignatures"
 	
