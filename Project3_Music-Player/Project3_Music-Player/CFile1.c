@@ -9,3 +9,16 @@ struct note {
 	unsigned char freq;
 	unsigned char duration;
 };
+
+/*
+void play_music(struct note *song[],int n)
+{
+	
+	int i = 0;
+	for (i;  i < n; i++)
+	{
+		
+		
+	}
+}
+*/

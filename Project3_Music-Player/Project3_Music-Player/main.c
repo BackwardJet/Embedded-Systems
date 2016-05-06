@@ -72,22 +72,42 @@ int main(void)
 		}
 		*/
 	
-		unsigned short msec = (1/440*tenToNegativeSix);
+		unsigned short msec = (227.2727273);
 		
 	
 		for (;;) { // A
-			unsigned char key = get_key();
+			// unsigned char key = get_key();
 				
 			SET_BIT(PORTB,3);
-			wait_avr(msec/2);
+			wait_avr(1);
 			CLR_BIT(PORTB,3);
-			wait_avr(msec/2);
+			wait_avr(225);
 		
-			if (key == 13) { // keypad: *
-				break;
-			}
+			//if (key == 1) { // keypad: *
+			//	break;
+			//}
 		
 		}
+		
+		
+		/*
+		for (;;) { // A
+			unsigned char key = get_key();
+			msec = 226;
+			SET_BIT(PORTB,3);
+			wait_avr(113);
+			CLR_BIT(PORTB,3);
+			wait_avr(113);
+				
+			
+			if (key == 13) { // keypad: *
+				break;
+			}	
+					
+		}
+		*/
+		 while (1) {}
+		
 	/*
 		for (int i = 0; i < 200; i++) { // B
 			unsigned char key = get_key();
