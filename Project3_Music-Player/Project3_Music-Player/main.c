@@ -10,7 +10,15 @@
 #include "lcd.h"
 #include <math.h>
 
-static double const tenToNegativeSix = pow(10.0,-6.0);
+//No need for this anymore
+//static double const tenToNegativeSix = pow(10.0,-6.0);
+
+struct note {
+	unsigned char freq;
+	unsigned char duration;
+};
+
+
 
 unsigned char pressed(int r, int c) {
 	// PUT ALL ROW AND COL PINS TO NO-CONNECT (DDR = 0, PORT = 0)
@@ -42,6 +50,26 @@ unsigned char get_key() {
 	return 0;
 }
 
+void play_note(char freq, char dur)
+{
+	for(int i = 0; i < (dur/2*2); i++)
+	{
+		SET_BIT(PORTB,3);
+		wait_avr(freq);
+		CLR_BIT(PORTB,3);
+		wait_avr(freq);
+	}
+	
+}
+
+void play_music(struct note *song[],int n)
+{
+	
+	for (int i = 0;  i < n; i++)
+	{
+		play_note(song[i]->freq, song[i]->duration);
+	}
+}
 
 
 
@@ -55,80 +83,14 @@ int main(void)
 	ini_lcd();
 	puts_lcd2("PROJECT 3");
 	
-	/*for (int k = 0; k < 2; k++) {
 	
-		for (int i = 0; i < 100; i++) { // G
-			unsigned char key = get_key();
-		
-			SET_BIT(PORTB,3);
-			wait_avr(392.00);
-			CLR_BIT(PORTB,3);
-			wait_avr(392.00);
-		
-			if (key == 13) { // keypad: *
-				break;
-			}
-		
-		}
-		*/
+	struct note mySong[] = {{127.5510204,1},{63.7755102,1},{190.8396947,1},{63.7755102,1},
+							{113.6363636,3},{127.5510204,3},{170.0680272,1},{127.5510204,1}
+								};
+	int n = 8;	
 	
-		unsigned short msec = (227.2727273);
-		
+	play_music(mySong, n);
 	
-		for (;;) { // A
-			// unsigned char key = get_key();
-				
-			SET_BIT(PORTB,3);
-			wait_avr(1);
-			CLR_BIT(PORTB,3);
-			wait_avr(225);
-		
-			//if (key == 1) { // keypad: *
-			//	break;
-			//}
-		
-		}
-		
-		
-		/*
-		for (;;) { // A
-			unsigned char key = get_key();
-			msec = 226;
-			SET_BIT(PORTB,3);
-			wait_avr(113);
-			CLR_BIT(PORTB,3);
-			wait_avr(113);
-				
-			
-			if (key == 13) { // keypad: *
-				break;
-			}	
-					
-		}
-		*/
-		 while (1) {}
-		
-	/*
-		for (int i = 0; i < 200; i++) { // B
-			unsigned char key = get_key();
-		
-			SET_BIT(PORTB,3);
-			wait_avr(493.88);
-			CLR_BIT(PORTB,3);
-			wait_avr(493.88);
-		
-			if (key == 13) { // keypad: *
-				break;
-			}
-		
-		}
-		
-	}
-	*/
-	
-	
-	
-	
+	return 0;
 	
 }
-
