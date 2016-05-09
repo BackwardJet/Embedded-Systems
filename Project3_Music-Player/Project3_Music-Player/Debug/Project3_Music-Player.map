@@ -188,7 +188,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x232
+.text           0x00000000      0x234
  *(.vectors)
  .vectors       0x00000000       0x54 C:/Program Files/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.98/gcc/dev/atmega32/avr5/crtatmega32.o
                 0x00000000                __vector_default
@@ -277,18 +277,18 @@ END GROUP
                 0x00000134       0x22 lcd.o
                 0x00000134                puts_lcd2
  .text.play_note
-                0x00000156       0x4a main.o
+                0x00000156       0x40 main.o
                 0x00000156                play_note
  .text.play_music
-                0x000001a0       0x36 main.o
-                0x000001a0                play_music
- .text.main     0x000001d6       0x58 main.o
-                0x000001d6                main
-                0x0000022e                . = ALIGN (0x2)
+                0x00000196       0x42 main.o
+                0x00000196                play_music
+ .text.main     0x000001d8       0x58 main.o
+                0x000001d8                main
+                0x00000230                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000022e        0x0 c:/program files/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
-                0x0000022e                _exit
-                0x0000022e                exit
+ .fini9         0x00000230        0x0 c:/program files/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
+                0x00000230                _exit
+                0x00000230                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -307,39 +307,39 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000022e        0x4 c:/program files/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000230        0x4 c:/program files/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000232                _etext = .
+                0x00000234                _etext = .
 
-.data           0x00800060       0x1a load address 0x00000232
+.data           0x00800060       0x22 load address 0x00000234
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
  *(.rodata)
- .rodata        0x00800060       0x10 main.o
+ .rodata        0x00800060       0x18 main.o
  *(.rodata*)
  .rodata.str1.1
-                0x00800070        0xa main.o
+                0x00800078        0xa main.o
  *(.gnu.linkonce.d*)
-                0x0080007a                . = ALIGN (0x2)
-                0x0080007a                _edata = .
-                0x0080007a                PROVIDE (__data_end, .)
+                0x00800082                . = ALIGN (0x2)
+                0x00800082                _edata = .
+                0x00800082                PROVIDE (__data_end, .)
 
-.bss            0x0080007a        0x0
-                0x0080007a                PROVIDE (__bss_start, .)
+.bss            0x00800082        0x0
+                0x00800082                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  *(COMMON)
-                0x0080007a                PROVIDE (__bss_end, .)
-                0x00000232                __data_load_start = LOADADDR (.data)
-                0x0000024c                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800082                PROVIDE (__bss_end, .)
+                0x00000234                __data_load_start = LOADADDR (.data)
+                0x00000256                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0080007a        0x0
-                0x0080007a                PROVIDE (__noinit_start, .)
+.noinit         0x00800082        0x0
+                0x00800082                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x0080007a                PROVIDE (__noinit_end, .)
-                0x0080007a                _end = .
-                0x0080007a                PROVIDE (__heap_start, .)
+                0x00800082                PROVIDE (__noinit_end, .)
+                0x00800082                _end = .
+                0x00800082                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -417,44 +417,44 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x80f
+.debug_info     0x00000000      0x827
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000       0xb4 avr.o
  .debug_info    0x000000b4      0x476 lcd.o
- .debug_info    0x0000052a      0x2e5 main.o
+ .debug_info    0x0000052a      0x2fd main.o
 
-.debug_abbrev   0x00000000      0x3c5
+.debug_abbrev   0x00000000      0x3d4
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0x7a avr.o
  .debug_abbrev  0x0000007a      0x1b8 lcd.o
- .debug_abbrev  0x00000232      0x193 main.o
+ .debug_abbrev  0x00000232      0x1a2 main.o
 
-.debug_line     0x00000000      0x36b
+.debug_line     0x00000000      0x36e
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000       0xae avr.o
  .debug_line    0x000000ae      0x18f lcd.o
- .debug_line    0x0000023d      0x12e main.o
+ .debug_line    0x0000023d      0x131 main.o
 
-.debug_frame    0x00000000      0x1b8
+.debug_frame    0x00000000      0x1c4
  *(.debug_frame)
  .debug_frame   0x00000000       0x34 avr.o
  .debug_frame   0x00000034       0xb4 lcd.o
- .debug_frame   0x000000e8       0xd0 main.o
+ .debug_frame   0x000000e8       0xdc main.o
 
-.debug_str      0x00000000      0x26d
+.debug_str      0x00000000      0x295
  *(.debug_str)
  .debug_str     0x00000000      0x189 avr.o
                                 0x1bd (size before relaxing)
  .debug_str     0x00000189       0x8b lcd.o
                                 0x235 (size before relaxing)
- .debug_str     0x00000214       0x59 main.o
-                                0x21a (size before relaxing)
+ .debug_str     0x00000214       0x81 main.o
+                                0x242 (size before relaxing)
 
-.debug_loc      0x00000000      0x602
+.debug_loc      0x00000000      0x65b
  *(.debug_loc)
  .debug_loc     0x00000000       0x28 avr.o
  .debug_loc     0x00000028      0x2d5 lcd.o
- .debug_loc     0x000002fd      0x305 main.o
+ .debug_loc     0x000002fd      0x35e main.o
 
 .debug_macinfo
  *(.debug_macinfo)
