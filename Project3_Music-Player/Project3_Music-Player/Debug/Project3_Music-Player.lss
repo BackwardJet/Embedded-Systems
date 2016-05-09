@@ -3,29 +3,29 @@ Project3_Music-Player.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000234  00000000  00000000  00000074  2**1
+  0 .text         00000238  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000022  00800060  00000234  000002a8  2**0
+  1 .data         0000004e  00800060  00000238  000002ac  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  000002ca  2**0
+  2 .comment      00000030  00000000  00000000  000002fa  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002fc  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000032c  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 000000c0  00000000  00000000  00000338  2**0
+  4 .debug_aranges 000000c8  00000000  00000000  00000368  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000827  00000000  00000000  000003f8  2**0
+  5 .debug_info   0000084e  00000000  00000000  00000430  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000003d4  00000000  00000000  00000c1f  2**0
+  6 .debug_abbrev 00000447  00000000  00000000  00000c7e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000036e  00000000  00000000  00000ff3  2**0
+  7 .debug_line   000003ce  00000000  00000000  000010c5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000001c4  00000000  00000000  00001364  2**2
+  8 .debug_frame  00000190  00000000  00000000  00001494  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000295  00000000  00000000  00001528  2**0
+  9 .debug_str    000002a1  00000000  00000000  00001624  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000065b  00000000  00000000  000017bd  2**0
+ 10 .debug_loc    0000051b  00000000  00000000  000018c5  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 000000a8  00000000  00000000  00001e18  2**0
+ 11 .debug_ranges 000000a0  00000000  00000000  00001de0  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -65,16 +65,16 @@ Disassembly of section .text:
   60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	e4 e3       	ldi	r30, 0x34	; 52
+  66:	e8 e3       	ldi	r30, 0x38	; 56
   68:	f2 e0       	ldi	r31, 0x02	; 2
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
   6e:	0d 92       	st	X+, r0
-  70:	a2 38       	cpi	r26, 0x82	; 130
+  70:	ae 3a       	cpi	r26, 0xAE	; 174
   72:	b1 07       	cpc	r27, r17
   74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
   76:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <main>
-  7a:	0c 94 18 01 	jmp	0x230	; 0x230 <_exit>
+  7a:	0c 94 1a 01 	jmp	0x234	; 0x234 <_exit>
 
 0000007e <__bad_interrupt>:
   7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -130,318 +130,316 @@ wait_avr(unsigned short msec)
   a2:	13 be       	out	0x33, r1	; 51
   a4:	08 95       	ret
 
-000000a6 <output>:
+000000a6 <play_note>:
+#include "music.h"
+#include "avr.h"
+
+
+void play_note(int freq, int dur)
+{
+  a6:	ef 92       	push	r14
+  a8:	ff 92       	push	r15
+  aa:	0f 93       	push	r16
+  ac:	1f 93       	push	r17
+  ae:	cf 93       	push	r28
+  b0:	df 93       	push	r29
+	for(int i = 0; i < (dur); i++)
+  b2:	16 16       	cp	r1, r22
+  b4:	17 06       	cpc	r1, r23
+  b6:	84 f4       	brge	.+32     	; 0xd8 <play_note+0x32>
+  b8:	7b 01       	movw	r14, r22
+  ba:	8c 01       	movw	r16, r24
+  bc:	c0 e0       	ldi	r28, 0x00	; 0
+  be:	d0 e0       	ldi	r29, 0x00	; 0
+	{
+		SET_BIT(PORTB,3);
+  c0:	c3 9a       	sbi	0x18, 3	; 24
+		wait_avr(freq);
+  c2:	c8 01       	movw	r24, r16
+  c4:	0e 94 41 00 	call	0x82	; 0x82 <wait_avr>
+		CLR_BIT(PORTB,3);
+  c8:	c3 98       	cbi	0x18, 3	; 24
+		wait_avr(freq);
+  ca:	c8 01       	movw	r24, r16
+  cc:	0e 94 41 00 	call	0x82	; 0x82 <wait_avr>
+#include "avr.h"
+
+
+void play_note(int freq, int dur)
+{
+	for(int i = 0; i < (dur); i++)
+  d0:	21 96       	adiw	r28, 0x01	; 1
+  d2:	ce 15       	cp	r28, r14
+  d4:	df 05       	cpc	r29, r15
+  d6:	a1 f7       	brne	.-24     	; 0xc0 <play_note+0x1a>
+		wait_avr(freq);
+		CLR_BIT(PORTB,3);
+		wait_avr(freq);
+	}
+	
+}
+  d8:	df 91       	pop	r29
+  da:	cf 91       	pop	r28
+  dc:	1f 91       	pop	r17
+  de:	0f 91       	pop	r16
+  e0:	ff 90       	pop	r15
+  e2:	ef 90       	pop	r14
+  e4:	08 95       	ret
+
+000000e6 <play_music>:
+
+void play_music(struct note *song,int numNotes)
+{
+  e6:	ef 92       	push	r14
+  e8:	ff 92       	push	r15
+  ea:	0f 93       	push	r16
+  ec:	1f 93       	push	r17
+  ee:	cf 93       	push	r28
+  f0:	df 93       	push	r29
+	for (int i = 0;  i < numNotes; i++)
+  f2:	16 16       	cp	r1, r22
+  f4:	17 06       	cpc	r1, r23
+  f6:	8c f4       	brge	.+34     	; 0x11a <play_music+0x34>
+  f8:	7b 01       	movw	r14, r22
+  fa:	c8 2f       	mov	r28, r24
+  fc:	d9 2f       	mov	r29, r25
+  fe:	00 e0       	ldi	r16, 0x00	; 0
+ 100:	10 e0       	ldi	r17, 0x00	; 0
+	{
+		play_note(song[i].freq, song[i].duration);
+ 102:	6a 81       	ldd	r22, Y+2	; 0x02
+ 104:	7b 81       	ldd	r23, Y+3	; 0x03
+ 106:	88 81       	ld	r24, Y
+ 108:	99 81       	ldd	r25, Y+1	; 0x01
+ 10a:	0e 94 53 00 	call	0xa6	; 0xa6 <play_note>
+	
+}
+
+void play_music(struct note *song,int numNotes)
+{
+	for (int i = 0;  i < numNotes; i++)
+ 10e:	0f 5f       	subi	r16, 0xFF	; 255
+ 110:	1f 4f       	sbci	r17, 0xFF	; 255
+ 112:	24 96       	adiw	r28, 0x04	; 4
+ 114:	0e 15       	cp	r16, r14
+ 116:	1f 05       	cpc	r17, r15
+ 118:	a1 f7       	brne	.-24     	; 0x102 <play_music+0x1c>
+	{
+		play_note(song[i].freq, song[i].duration);
+	}
+ 11a:	df 91       	pop	r29
+ 11c:	cf 91       	pop	r28
+ 11e:	1f 91       	pop	r17
+ 120:	0f 91       	pop	r16
+ 122:	ff 90       	pop	r15
+ 124:	ef 90       	pop	r14
+ 126:	08 95       	ret
+
+00000128 <output>:
 }
 
 static void
 output(unsigned char d, unsigned char rs)
 {
   if (rs) SET_BIT(PORT, RS_PIN); else CLR_BIT(PORT, RS_PIN);
-  a6:	66 23       	and	r22, r22
-  a8:	11 f0       	breq	.+4      	; 0xae <output+0x8>
-  aa:	c0 9a       	sbi	0x18, 0	; 24
-  ac:	01 c0       	rjmp	.+2      	; 0xb0 <output+0xa>
-  ae:	c0 98       	cbi	0x18, 0	; 24
+ 128:	66 23       	and	r22, r22
+ 12a:	11 f0       	breq	.+4      	; 0x130 <output+0x8>
+ 12c:	c0 9a       	sbi	0x18, 0	; 24
+ 12e:	01 c0       	rjmp	.+2      	; 0x132 <output+0xa>
+ 130:	c0 98       	cbi	0x18, 0	; 24
   CLR_BIT(PORT, RW_PIN);
-  b0:	c1 98       	cbi	0x18, 1	; 24
+ 132:	c1 98       	cbi	0x18, 1	; 24
 #define EN_PIN  2
 
 static inline void
 set_data(unsigned char x)
 {
   PORTD = x;
-  b2:	82 bb       	out	0x12, r24	; 18
+ 134:	82 bb       	out	0x12, r24	; 18
   DDRD = 0xff;
-  b4:	8f ef       	ldi	r24, 0xFF	; 255
-  b6:	81 bb       	out	0x11, r24	; 17
+ 136:	8f ef       	ldi	r24, 0xFF	; 255
+ 138:	81 bb       	out	0x11, r24	; 17
 output(unsigned char d, unsigned char rs)
 {
   if (rs) SET_BIT(PORT, RS_PIN); else CLR_BIT(PORT, RS_PIN);
   CLR_BIT(PORT, RW_PIN);
   set_data(d);
   SET_BIT(PORT, EN_PIN);
-  b8:	c2 9a       	sbi	0x18, 2	; 24
+ 13a:	c2 9a       	sbi	0x18, 2	; 24
 }
 
 static inline void
 sleep_700ns(void)
 {
   NOP();
-  ba:	00 00       	nop
+ 13c:	00 00       	nop
   NOP();
-  bc:	00 00       	nop
+ 13e:	00 00       	nop
   NOP();
-  be:	00 00       	nop
+ 140:	00 00       	nop
   if (rs) SET_BIT(PORT, RS_PIN); else CLR_BIT(PORT, RS_PIN);
   CLR_BIT(PORT, RW_PIN);
   set_data(d);
   SET_BIT(PORT, EN_PIN);
   sleep_700ns();
   CLR_BIT(PORT, EN_PIN);
-  c0:	c2 98       	cbi	0x18, 2	; 24
-  c2:	08 95       	ret
+ 142:	c2 98       	cbi	0x18, 2	; 24
+ 144:	08 95       	ret
 
-000000c4 <write>:
+00000146 <write>:
 
 static unsigned char
 input(unsigned char rs)
 {
   unsigned char d;
   if (rs) SET_BIT(PORT, RS_PIN); else CLR_BIT(PORT, RS_PIN);
-  c4:	c0 98       	cbi	0x18, 0	; 24
+ 146:	c0 98       	cbi	0x18, 0	; 24
   SET_BIT(PORT, RW_PIN);
-  c6:	c1 9a       	sbi	0x18, 1	; 24
+ 148:	c1 9a       	sbi	0x18, 1	; 24
 }
 
 static inline unsigned char
 get_data(void)
 {
   DDRD = 0x00;
-  c8:	11 ba       	out	0x11, r1	; 17
+ 14a:	11 ba       	out	0x11, r1	; 17
   return PIND;
-  ca:	90 b3       	in	r25, 0x10	; 16
+ 14c:	90 b3       	in	r25, 0x10	; 16
 {
   unsigned char d;
   if (rs) SET_BIT(PORT, RS_PIN); else CLR_BIT(PORT, RS_PIN);
   SET_BIT(PORT, RW_PIN);
   get_data();
   SET_BIT(PORT, EN_PIN);
-  cc:	c2 9a       	sbi	0x18, 2	; 24
+ 14e:	c2 9a       	sbi	0x18, 2	; 24
 }
 
 static inline void
 sleep_700ns(void)
 {
   NOP();
-  ce:	00 00       	nop
+ 150:	00 00       	nop
   NOP();
-  d0:	00 00       	nop
+ 152:	00 00       	nop
   NOP();
-  d2:	00 00       	nop
+ 154:	00 00       	nop
 }
 
 static inline unsigned char
 get_data(void)
 {
   DDRD = 0x00;
-  d4:	11 ba       	out	0x11, r1	; 17
+ 156:	11 ba       	out	0x11, r1	; 17
   return PIND;
-  d6:	90 b3       	in	r25, 0x10	; 16
+ 158:	90 b3       	in	r25, 0x10	; 16
   SET_BIT(PORT, RW_PIN);
   get_data();
   SET_BIT(PORT, EN_PIN);
   sleep_700ns();
   d = get_data();
   CLR_BIT(PORT, EN_PIN);
-  d8:	c2 98       	cbi	0x18, 2	; 24
+ 15a:	c2 98       	cbi	0x18, 2	; 24
 }
 
 static void
 write(unsigned char c, unsigned char rs)
 {
   while (input(0) & 0x80);
-  da:	99 23       	and	r25, r25
-  dc:	9c f3       	brlt	.-26     	; 0xc4 <write>
+ 15c:	99 23       	and	r25, r25
+ 15e:	9c f3       	brlt	.-26     	; 0x146 <write>
   output(c, rs);
-  de:	0e 94 53 00 	call	0xa6	; 0xa6 <output>
-  e2:	08 95       	ret
+ 160:	0e 94 94 00 	call	0x128	; 0x128 <output>
+ 164:	08 95       	ret
 
-000000e4 <ini_lcd>:
+00000166 <ini_lcd>:
 }
 
 void
 ini_lcd(void)
 {
   SET_BIT(DDR, RS_PIN);
-  e4:	b8 9a       	sbi	0x17, 0	; 23
+ 166:	b8 9a       	sbi	0x17, 0	; 23
   SET_BIT(DDR, RW_PIN);
-  e6:	b9 9a       	sbi	0x17, 1	; 23
+ 168:	b9 9a       	sbi	0x17, 1	; 23
   SET_BIT(DDR, EN_PIN);
-  e8:	ba 9a       	sbi	0x17, 2	; 23
+ 16a:	ba 9a       	sbi	0x17, 2	; 23
   wait_avr(16);
-  ea:	80 e1       	ldi	r24, 0x10	; 16
-  ec:	90 e0       	ldi	r25, 0x00	; 0
-  ee:	0e 94 41 00 	call	0x82	; 0x82 <wait_avr>
+ 16c:	80 e1       	ldi	r24, 0x10	; 16
+ 16e:	90 e0       	ldi	r25, 0x00	; 0
+ 170:	0e 94 41 00 	call	0x82	; 0x82 <wait_avr>
   output(0x30, 0);
-  f2:	60 e0       	ldi	r22, 0x00	; 0
-  f4:	80 e3       	ldi	r24, 0x30	; 48
-  f6:	0e 94 53 00 	call	0xa6	; 0xa6 <output>
+ 174:	60 e0       	ldi	r22, 0x00	; 0
+ 176:	80 e3       	ldi	r24, 0x30	; 48
+ 178:	0e 94 94 00 	call	0x128	; 0x128 <output>
   wait_avr(5);
-  fa:	85 e0       	ldi	r24, 0x05	; 5
-  fc:	90 e0       	ldi	r25, 0x00	; 0
-  fe:	0e 94 41 00 	call	0x82	; 0x82 <wait_avr>
+ 17c:	85 e0       	ldi	r24, 0x05	; 5
+ 17e:	90 e0       	ldi	r25, 0x00	; 0
+ 180:	0e 94 41 00 	call	0x82	; 0x82 <wait_avr>
   output(0x30, 0);
- 102:	60 e0       	ldi	r22, 0x00	; 0
- 104:	80 e3       	ldi	r24, 0x30	; 48
- 106:	0e 94 53 00 	call	0xa6	; 0xa6 <output>
+ 184:	60 e0       	ldi	r22, 0x00	; 0
+ 186:	80 e3       	ldi	r24, 0x30	; 48
+ 188:	0e 94 94 00 	call	0x128	; 0x128 <output>
   wait_avr(1);
- 10a:	81 e0       	ldi	r24, 0x01	; 1
- 10c:	90 e0       	ldi	r25, 0x00	; 0
- 10e:	0e 94 41 00 	call	0x82	; 0x82 <wait_avr>
+ 18c:	81 e0       	ldi	r24, 0x01	; 1
+ 18e:	90 e0       	ldi	r25, 0x00	; 0
+ 190:	0e 94 41 00 	call	0x82	; 0x82 <wait_avr>
   write(0x3c, 0);
- 112:	60 e0       	ldi	r22, 0x00	; 0
- 114:	8c e3       	ldi	r24, 0x3C	; 60
- 116:	0e 94 62 00 	call	0xc4	; 0xc4 <write>
+ 194:	60 e0       	ldi	r22, 0x00	; 0
+ 196:	8c e3       	ldi	r24, 0x3C	; 60
+ 198:	0e 94 a3 00 	call	0x146	; 0x146 <write>
   write(0x0c, 0);
- 11a:	60 e0       	ldi	r22, 0x00	; 0
- 11c:	8c e0       	ldi	r24, 0x0C	; 12
- 11e:	0e 94 62 00 	call	0xc4	; 0xc4 <write>
+ 19c:	60 e0       	ldi	r22, 0x00	; 0
+ 19e:	8c e0       	ldi	r24, 0x0C	; 12
+ 1a0:	0e 94 a3 00 	call	0x146	; 0x146 <write>
   write(0x06, 0);
- 122:	60 e0       	ldi	r22, 0x00	; 0
- 124:	86 e0       	ldi	r24, 0x06	; 6
- 126:	0e 94 62 00 	call	0xc4	; 0xc4 <write>
+ 1a4:	60 e0       	ldi	r22, 0x00	; 0
+ 1a6:	86 e0       	ldi	r24, 0x06	; 6
+ 1a8:	0e 94 a3 00 	call	0x146	; 0x146 <write>
   write(0x01, 0);
- 12a:	60 e0       	ldi	r22, 0x00	; 0
- 12c:	81 e0       	ldi	r24, 0x01	; 1
- 12e:	0e 94 62 00 	call	0xc4	; 0xc4 <write>
- 132:	08 95       	ret
+ 1ac:	60 e0       	ldi	r22, 0x00	; 0
+ 1ae:	81 e0       	ldi	r24, 0x01	; 1
+ 1b0:	0e 94 a3 00 	call	0x146	; 0x146 <write>
+ 1b4:	08 95       	ret
 
-00000134 <puts_lcd2>:
+000001b6 <puts_lcd2>:
   }
 }
 
 void
 puts_lcd2(const char *s)
 {
- 134:	cf 93       	push	r28
- 136:	df 93       	push	r29
+ 1b6:	cf 93       	push	r28
+ 1b8:	df 93       	push	r29
   char c;
   while ((c = *(s++)) != 0) {
- 138:	ec 01       	movw	r28, r24
- 13a:	21 96       	adiw	r28, 0x01	; 1
- 13c:	fc 01       	movw	r30, r24
- 13e:	80 81       	ld	r24, Z
- 140:	88 23       	and	r24, r24
- 142:	31 f0       	breq	.+12     	; 0x150 <puts_lcd2+0x1c>
+ 1ba:	ec 01       	movw	r28, r24
+ 1bc:	21 96       	adiw	r28, 0x01	; 1
+ 1be:	fc 01       	movw	r30, r24
+ 1c0:	80 81       	ld	r24, Z
+ 1c2:	88 23       	and	r24, r24
+ 1c4:	31 f0       	breq	.+12     	; 0x1d2 <puts_lcd2+0x1c>
     write(c, 1);
- 144:	61 e0       	ldi	r22, 0x01	; 1
- 146:	0e 94 62 00 	call	0xc4	; 0xc4 <write>
+ 1c6:	61 e0       	ldi	r22, 0x01	; 1
+ 1c8:	0e 94 a3 00 	call	0x146	; 0x146 <write>
 
 void
 puts_lcd2(const char *s)
 {
   char c;
   while ((c = *(s++)) != 0) {
- 14a:	89 91       	ld	r24, Y+
- 14c:	81 11       	cpse	r24, r1
- 14e:	fa cf       	rjmp	.-12     	; 0x144 <puts_lcd2+0x10>
+ 1cc:	89 91       	ld	r24, Y+
+ 1ce:	81 11       	cpse	r24, r1
+ 1d0:	fa cf       	rjmp	.-12     	; 0x1c6 <puts_lcd2+0x10>
     write(c, 1);
   }
 }
- 150:	df 91       	pop	r29
- 152:	cf 91       	pop	r28
- 154:	08 95       	ret
-
-00000156 <play_note>:
-}
-
-
-
-void play_note(int freq, int dur)
-{
- 156:	ef 92       	push	r14
- 158:	ff 92       	push	r15
- 15a:	0f 93       	push	r16
- 15c:	1f 93       	push	r17
- 15e:	cf 93       	push	r28
- 160:	df 93       	push	r29
-   for(int i = 0; i < (dur); i++)
- 162:	16 16       	cp	r1, r22
- 164:	17 06       	cpc	r1, r23
- 166:	84 f4       	brge	.+32     	; 0x188 <play_note+0x32>
- 168:	7b 01       	movw	r14, r22
- 16a:	8c 01       	movw	r16, r24
- 16c:	c0 e0       	ldi	r28, 0x00	; 0
- 16e:	d0 e0       	ldi	r29, 0x00	; 0
-   {
-      SET_BIT(PORTB,3);
- 170:	c3 9a       	sbi	0x18, 3	; 24
-      wait_avr(freq);
- 172:	c8 01       	movw	r24, r16
- 174:	0e 94 41 00 	call	0x82	; 0x82 <wait_avr>
-      CLR_BIT(PORTB,3);
- 178:	c3 98       	cbi	0x18, 3	; 24
-      wait_avr(freq);
- 17a:	c8 01       	movw	r24, r16
- 17c:	0e 94 41 00 	call	0x82	; 0x82 <wait_avr>
-
-
-
-void play_note(int freq, int dur)
-{
-   for(int i = 0; i < (dur); i++)
- 180:	21 96       	adiw	r28, 0x01	; 1
- 182:	ce 15       	cp	r28, r14
- 184:	df 05       	cpc	r29, r15
- 186:	a1 f7       	brne	.-24     	; 0x170 <play_note+0x1a>
-      wait_avr(freq);
-      CLR_BIT(PORTB,3);
-      wait_avr(freq);
-   }
-   
-}
- 188:	df 91       	pop	r29
- 18a:	cf 91       	pop	r28
- 18c:	1f 91       	pop	r17
- 18e:	0f 91       	pop	r16
- 190:	ff 90       	pop	r15
- 192:	ef 90       	pop	r14
- 194:	08 95       	ret
-
-00000196 <play_music>:
-
-void play_music(struct note *song,int n)
-{
- 196:	ef 92       	push	r14
- 198:	ff 92       	push	r15
- 19a:	0f 93       	push	r16
- 19c:	1f 93       	push	r17
- 19e:	cf 93       	push	r28
- 1a0:	df 93       	push	r29
-   
-   for (int i = 0;  i < n; i++)
- 1a2:	16 16       	cp	r1, r22
- 1a4:	17 06       	cpc	r1, r23
- 1a6:	8c f4       	brge	.+34     	; 0x1ca <play_music+0x34>
- 1a8:	7b 01       	movw	r14, r22
- 1aa:	c8 2f       	mov	r28, r24
- 1ac:	d9 2f       	mov	r29, r25
- 1ae:	00 e0       	ldi	r16, 0x00	; 0
- 1b0:	10 e0       	ldi	r17, 0x00	; 0
-   {
-      play_note(song[i].freq, song[i].duration);
- 1b2:	6a 81       	ldd	r22, Y+2	; 0x02
- 1b4:	7b 81       	ldd	r23, Y+3	; 0x03
- 1b6:	88 81       	ld	r24, Y
- 1b8:	99 81       	ldd	r25, Y+1	; 0x01
- 1ba:	0e 94 ab 00 	call	0x156	; 0x156 <play_note>
-}
-
-void play_music(struct note *song,int n)
-{
-   
-   for (int i = 0;  i < n; i++)
- 1be:	0f 5f       	subi	r16, 0xFF	; 255
- 1c0:	1f 4f       	sbci	r17, 0xFF	; 255
- 1c2:	24 96       	adiw	r28, 0x04	; 4
- 1c4:	0e 15       	cp	r16, r14
- 1c6:	1f 05       	cpc	r17, r15
- 1c8:	a1 f7       	brne	.-24     	; 0x1b2 <play_music+0x1c>
-   {
-      play_note(song[i].freq, song[i].duration);
-   }
-}
- 1ca:	df 91       	pop	r29
- 1cc:	cf 91       	pop	r28
- 1ce:	1f 91       	pop	r17
- 1d0:	0f 91       	pop	r16
- 1d2:	ff 90       	pop	r15
- 1d4:	ef 90       	pop	r14
+ 1d2:	df 91       	pop	r29
+ 1d4:	cf 91       	pop	r28
  1d6:	08 95       	ret
 
 000001d8 <main>:
 
-
+static double const tenToNegativeSix = pow(10.0,-6.0);
 
 
 int main(void)
@@ -450,68 +448,70 @@ int main(void)
  1da:	df 93       	push	r29
  1dc:	cd b7       	in	r28, 0x3d	; 61
  1de:	de b7       	in	r29, 0x3e	; 62
- 1e0:	68 97       	sbiw	r28, 0x18	; 24
- 1e2:	0f b6       	in	r0, 0x3f	; 63
- 1e4:	f8 94       	cli
- 1e6:	de bf       	out	0x3e, r29	; 62
- 1e8:	0f be       	out	0x3f, r0	; 63
- 1ea:	cd bf       	out	0x3d, r28	; 61
+ 1e0:	c4 54       	subi	r28, 0x44	; 68
+ 1e2:	d1 09       	sbc	r29, r1
+ 1e4:	0f b6       	in	r0, 0x3f	; 63
+ 1e6:	f8 94       	cli
+ 1e8:	de bf       	out	0x3e, r29	; 62
+ 1ea:	0f be       	out	0x3f, r0	; 63
+ 1ec:	cd bf       	out	0x3d, r28	; 61
    /* Replace with your application code */
    
    DDRB = 0x01 << 3;
- 1ec:	88 e0       	ldi	r24, 0x08	; 8
- 1ee:	87 bb       	out	0x17, r24	; 23
+ 1ee:	88 e0       	ldi	r24, 0x08	; 8
+ 1f0:	87 bb       	out	0x17, r24	; 23
    
    ini_lcd();
- 1f0:	0e 94 72 00 	call	0xe4	; 0xe4 <ini_lcd>
+ 1f2:	0e 94 b3 00 	call	0x166	; 0x166 <ini_lcd>
    puts_lcd2("PROJECT 3");
- 1f4:	88 e7       	ldi	r24, 0x78	; 120
- 1f6:	90 e0       	ldi	r25, 0x00	; 0
- 1f8:	0e 94 9a 00 	call	0x134	; 0x134 <puts_lcd2>
+ 1f6:	84 ea       	ldi	r24, 0xA4	; 164
+ 1f8:	90 e0       	ldi	r25, 0x00	; 0
+ 1fa:	0e 94 db 00 	call	0x1b6	; 0x1b6 <puts_lcd2>
    
-   int n_cross = 6;
+   int numNotesCross = 17;
    
    //hot cross buns: bb aa gggg bb aa gggg g g g g a a a a gg bb aa
 
    struct note hot_cross_buns[] = {
- 1fc:	88 e1       	ldi	r24, 0x18	; 24
- 1fe:	e0 e6       	ldi	r30, 0x60	; 96
- 200:	f0 e0       	ldi	r31, 0x00	; 0
- 202:	de 01       	movw	r26, r28
- 204:	11 96       	adiw	r26, 0x01	; 1
- 206:	01 90       	ld	r0, Z+
- 208:	0d 92       	st	X+, r0
- 20a:	8a 95       	dec	r24
- 20c:	e1 f7       	brne	.-8      	; 0x206 <main+0x2e>
+ 1fe:	84 e4       	ldi	r24, 0x44	; 68
+ 200:	e0 e6       	ldi	r30, 0x60	; 96
+ 202:	f0 e0       	ldi	r31, 0x00	; 0
+ 204:	de 01       	movw	r26, r28
+ 206:	11 96       	adiw	r26, 0x01	; 1
+ 208:	01 90       	ld	r0, Z+
+ 20a:	0d 92       	st	X+, r0
+ 20c:	8a 95       	dec	r24
+ 20e:	e1 f7       	brne	.-8      	; 0x208 <main+0x30>
       {101.2391674,493.88},
-         {113.6363636,440},
-            {127.5510204,392*2}
+		  {113.6363636,440},
+			  {127.5510204,392*2}	
    };
 
-   play_music(hot_cross_buns, n_cross);
- 20e:	66 e0       	ldi	r22, 0x06	; 6
- 210:	70 e0       	ldi	r23, 0x00	; 0
- 212:	ce 01       	movw	r24, r28
- 214:	01 96       	adiw	r24, 0x01	; 1
- 216:	0e 94 cb 00 	call	0x196	; 0x196 <play_music>
+   play_music(hot_cross_buns, numNotesCross);
+ 210:	61 e1       	ldi	r22, 0x11	; 17
+ 212:	70 e0       	ldi	r23, 0x00	; 0
+ 214:	ce 01       	movw	r24, r28
+ 216:	01 96       	adiw	r24, 0x01	; 1
+ 218:	0e 94 73 00 	call	0xe6	; 0xe6 <play_music>
 
    return 0;
 
 }
- 21a:	80 e0       	ldi	r24, 0x00	; 0
- 21c:	90 e0       	ldi	r25, 0x00	; 0
- 21e:	68 96       	adiw	r28, 0x18	; 24
- 220:	0f b6       	in	r0, 0x3f	; 63
- 222:	f8 94       	cli
- 224:	de bf       	out	0x3e, r29	; 62
- 226:	0f be       	out	0x3f, r0	; 63
- 228:	cd bf       	out	0x3d, r28	; 61
- 22a:	df 91       	pop	r29
- 22c:	cf 91       	pop	r28
- 22e:	08 95       	ret
+ 21c:	80 e0       	ldi	r24, 0x00	; 0
+ 21e:	90 e0       	ldi	r25, 0x00	; 0
+ 220:	cc 5b       	subi	r28, 0xBC	; 188
+ 222:	df 4f       	sbci	r29, 0xFF	; 255
+ 224:	0f b6       	in	r0, 0x3f	; 63
+ 226:	f8 94       	cli
+ 228:	de bf       	out	0x3e, r29	; 62
+ 22a:	0f be       	out	0x3f, r0	; 63
+ 22c:	cd bf       	out	0x3d, r28	; 61
+ 22e:	df 91       	pop	r29
+ 230:	cf 91       	pop	r28
+ 232:	08 95       	ret
 
-00000230 <_exit>:
- 230:	f8 94       	cli
+00000234 <_exit>:
+ 234:	f8 94       	cli
 
-00000232 <__stop_program>:
- 232:	ff cf       	rjmp	.-2      	; 0x232 <__stop_program>
+00000236 <__stop_program>:
+ 236:	ff cf       	rjmp	.-2      	; 0x236 <__stop_program>

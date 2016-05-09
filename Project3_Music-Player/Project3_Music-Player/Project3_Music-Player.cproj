@@ -140,7 +140,13 @@
     <Compile Include="avr.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="CFile1.c">
+    <Compile Include="keypad.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="keypad.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="music.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="lcd.c">
@@ -150,6 +156,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="music.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
