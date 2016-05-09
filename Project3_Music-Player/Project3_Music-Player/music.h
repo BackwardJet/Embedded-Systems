@@ -16,7 +16,8 @@ struct note {
 
 void play_note(int freq, int dur);
 void play_music(struct note *song,int numNotes);
-
+void playHotCrossBuns();
+void playABC();
 
 
 
