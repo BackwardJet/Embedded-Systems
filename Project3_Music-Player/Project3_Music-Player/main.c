@@ -12,7 +12,7 @@
 #include "music.h"
 #include <math.h>
 
-static double const tenToNegativeSix = pow(10.0,-6.0);
+// static double const tenToNegativeSix = pow(10.0,-6.0);
 
 
 int main(void)
@@ -26,26 +26,32 @@ int main(void)
    puts_lcd2("1:Hot Cross Buns");
    pos_lcd(1,0);
    puts_lcd2("2:ABC's");
-   //LCD CAN HAVE 16 CHARACTERS
+   //LCD HAS 16 CHARACTERS MAX
    
-	for (;;) {
-		unsigned char key = get_key();
-		if (key == 1) {
-			playHotCrossBuns();
+	while (1) {
+		for (;;) {
+			unsigned char key = get_key();
+			if (key == 1) {
+				playHotCrossBuns(1,0.5);
+			}
+			if (key == 2) {
+				playABC(1,0.5);
+			}
+			if (key == 5) { // keypad: 4
+				playHotCrossBuns(1,0.99);
+			}
+			if (key == 6) { // keypad: 5
+				playABC(1,0.99);
+			}
+			if (key == 9) { // keypad: 7
+				playHotCrossBuns(2,0.5);
+			}
+			if (key == 10) { // keypad: 8
+				playABC(2,0.5);
+			}
 		}
-		if (key == 2) {
-			playABC();
-		}
+  
 	}
-
-   
-   
-   
-   
-   
-
-
-   
 
    return 0;
 
