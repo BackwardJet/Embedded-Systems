@@ -18,8 +18,8 @@ void play_note(int freq, int dur);
 void play_music(struct note *song,int numNotes);
 void playHotCrossBuns(int tempo, double volumeRatio);
 void playABC(int tempo, double volumeRatio);
-void play_note_volume(int freq, int dur, double ratio);
-void play_music_volume(struct note *song,int numNotes, double ratio);
+void play_note_volume(int freq, int dur, double ratio, int tempo);
+void play_music_volume(struct note *song,int numNotes, double ratio, int tempo);
 void playHotCrossBunsVolume(int tempo);
 
 
