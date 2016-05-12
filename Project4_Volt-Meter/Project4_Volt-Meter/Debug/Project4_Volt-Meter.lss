@@ -1,0 +1,356 @@
+
+Project4_Volt-Meter.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000016c  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000a  00800060  0000016c  000001e0  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000001ea  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000021c  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 000000a0  00000000  00000000  00000258  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000005fc  00000000  00000000  000002f8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000002d7  00000000  00000000  000008f4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000281  00000000  00000000  00000bcb  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  0000010c  00000000  00000000  00000e4c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000221  00000000  00000000  00000f58  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000002fd  00000000  00000000  00001179  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000088  00000000  00000000  00001476  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   8:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  10:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  14:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  18:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  1c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  20:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  24:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  28:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  2c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  30:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  34:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  38:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  3c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  40:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  44:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  48:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  4c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  50:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	ec e6       	ldi	r30, 0x6C	; 108
+  68:	f1 e0       	ldi	r31, 0x01	; 1
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	aa 36       	cpi	r26, 0x6A	; 106
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+  76:	0e 94 ab 00 	call	0x156	; 0x156 <main>
+  7a:	0c 94 b4 00 	jmp	0x168	; 0x168 <_exit>
+
+0000007e <__bad_interrupt>:
+  7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000082 <wait_avr>:
+  WDTCR = 15;
+}
+
+void
+wait_avr(unsigned short msec)
+{
+  82:	9c 01       	movw	r18, r24
+  TCCR0 = 2;
+  84:	82 e0       	ldi	r24, 0x02	; 2
+  86:	83 bf       	out	0x33, r24	; 51
+  while (msec--) {
+    TCNT0 = (unsigned char)(256 - (XTAL_FRQ / 8) * 0.00001);
+  88:	86 ef       	ldi	r24, 0xF6	; 246
+
+void
+wait_avr(unsigned short msec)
+{
+  TCCR0 = 2;
+  while (msec--) {
+  8a:	08 c0       	rjmp	.+16     	; 0x9c <wait_avr+0x1a>
+    TCNT0 = (unsigned char)(256 - (XTAL_FRQ / 8) * 0.00001);
+  8c:	82 bf       	out	0x32, r24	; 50
+    SET_BIT(TIFR, TOV0);
+  8e:	98 b7       	in	r25, 0x38	; 56
+  90:	91 60       	ori	r25, 0x01	; 1
+  92:	98 bf       	out	0x38, r25	; 56
+    WDR();
+  94:	a8 95       	wdr
+    while (!GET_BIT(TIFR, TOV0));
+  96:	08 b6       	in	r0, 0x38	; 56
+  98:	00 fe       	sbrs	r0, 0
+  9a:	fd cf       	rjmp	.-6      	; 0x96 <wait_avr+0x14>
+
+void
+wait_avr(unsigned short msec)
+{
+  TCCR0 = 2;
+  while (msec--) {
+  9c:	21 50       	subi	r18, 0x01	; 1
+  9e:	31 09       	sbc	r19, r1
+  a0:	a8 f7       	brcc	.-22     	; 0x8c <wait_avr+0xa>
+    TCNT0 = (unsigned char)(256 - (XTAL_FRQ / 8) * 0.00001);
+    SET_BIT(TIFR, TOV0);
+    WDR();
+    while (!GET_BIT(TIFR, TOV0));
+  }
+  TCCR0 = 0;
+  a2:	13 be       	out	0x33, r1	; 51
+  a4:	08 95       	ret
+
+000000a6 <output>:
+}
+
+static void
+output(unsigned char d, unsigned char rs)
+{
+  if (rs) SET_BIT(PORT, RS_PIN); else CLR_BIT(PORT, RS_PIN);
+  a6:	66 23       	and	r22, r22
+  a8:	11 f0       	breq	.+4      	; 0xae <output+0x8>
+  aa:	c0 9a       	sbi	0x18, 0	; 24
+  ac:	01 c0       	rjmp	.+2      	; 0xb0 <output+0xa>
+  ae:	c0 98       	cbi	0x18, 0	; 24
+  CLR_BIT(PORT, RW_PIN);
+  b0:	c1 98       	cbi	0x18, 1	; 24
+#define EN_PIN  2
+
+static inline void
+set_data(unsigned char x)
+{
+  PORTD = x;
+  b2:	82 bb       	out	0x12, r24	; 18
+  DDRD = 0xff;
+  b4:	8f ef       	ldi	r24, 0xFF	; 255
+  b6:	81 bb       	out	0x11, r24	; 17
+output(unsigned char d, unsigned char rs)
+{
+  if (rs) SET_BIT(PORT, RS_PIN); else CLR_BIT(PORT, RS_PIN);
+  CLR_BIT(PORT, RW_PIN);
+  set_data(d);
+  SET_BIT(PORT, EN_PIN);
+  b8:	c2 9a       	sbi	0x18, 2	; 24
+}
+
+static inline void
+sleep_700ns(void)
+{
+  NOP();
+  ba:	00 00       	nop
+  NOP();
+  bc:	00 00       	nop
+  NOP();
+  be:	00 00       	nop
+  if (rs) SET_BIT(PORT, RS_PIN); else CLR_BIT(PORT, RS_PIN);
+  CLR_BIT(PORT, RW_PIN);
+  set_data(d);
+  SET_BIT(PORT, EN_PIN);
+  sleep_700ns();
+  CLR_BIT(PORT, EN_PIN);
+  c0:	c2 98       	cbi	0x18, 2	; 24
+  c2:	08 95       	ret
+
+000000c4 <write>:
+
+static unsigned char
+input(unsigned char rs)
+{
+  unsigned char d;
+  if (rs) SET_BIT(PORT, RS_PIN); else CLR_BIT(PORT, RS_PIN);
+  c4:	c0 98       	cbi	0x18, 0	; 24
+  SET_BIT(PORT, RW_PIN);
+  c6:	c1 9a       	sbi	0x18, 1	; 24
+}
+
+static inline unsigned char
+get_data(void)
+{
+  DDRD = 0x00;
+  c8:	11 ba       	out	0x11, r1	; 17
+  return PIND;
+  ca:	90 b3       	in	r25, 0x10	; 16
+{
+  unsigned char d;
+  if (rs) SET_BIT(PORT, RS_PIN); else CLR_BIT(PORT, RS_PIN);
+  SET_BIT(PORT, RW_PIN);
+  get_data();
+  SET_BIT(PORT, EN_PIN);
+  cc:	c2 9a       	sbi	0x18, 2	; 24
+}
+
+static inline void
+sleep_700ns(void)
+{
+  NOP();
+  ce:	00 00       	nop
+  NOP();
+  d0:	00 00       	nop
+  NOP();
+  d2:	00 00       	nop
+}
+
+static inline unsigned char
+get_data(void)
+{
+  DDRD = 0x00;
+  d4:	11 ba       	out	0x11, r1	; 17
+  return PIND;
+  d6:	90 b3       	in	r25, 0x10	; 16
+  SET_BIT(PORT, RW_PIN);
+  get_data();
+  SET_BIT(PORT, EN_PIN);
+  sleep_700ns();
+  d = get_data();
+  CLR_BIT(PORT, EN_PIN);
+  d8:	c2 98       	cbi	0x18, 2	; 24
+}
+
+static void
+write(unsigned char c, unsigned char rs)
+{
+  while (input(0) & 0x80);
+  da:	99 23       	and	r25, r25
+  dc:	9c f3       	brlt	.-26     	; 0xc4 <write>
+  output(c, rs);
+  de:	0e 94 53 00 	call	0xa6	; 0xa6 <output>
+  e2:	08 95       	ret
+
+000000e4 <ini_lcd>:
+}
+
+void
+ini_lcd(void)
+{
+  SET_BIT(DDR, RS_PIN);
+  e4:	b8 9a       	sbi	0x17, 0	; 23
+  SET_BIT(DDR, RW_PIN);
+  e6:	b9 9a       	sbi	0x17, 1	; 23
+  SET_BIT(DDR, EN_PIN);
+  e8:	ba 9a       	sbi	0x17, 2	; 23
+  wait_avr(16);
+  ea:	80 e1       	ldi	r24, 0x10	; 16
+  ec:	90 e0       	ldi	r25, 0x00	; 0
+  ee:	0e 94 41 00 	call	0x82	; 0x82 <wait_avr>
+  output(0x30, 0);
+  f2:	60 e0       	ldi	r22, 0x00	; 0
+  f4:	80 e3       	ldi	r24, 0x30	; 48
+  f6:	0e 94 53 00 	call	0xa6	; 0xa6 <output>
+  wait_avr(5);
+  fa:	85 e0       	ldi	r24, 0x05	; 5
+  fc:	90 e0       	ldi	r25, 0x00	; 0
+  fe:	0e 94 41 00 	call	0x82	; 0x82 <wait_avr>
+  output(0x30, 0);
+ 102:	60 e0       	ldi	r22, 0x00	; 0
+ 104:	80 e3       	ldi	r24, 0x30	; 48
+ 106:	0e 94 53 00 	call	0xa6	; 0xa6 <output>
+  wait_avr(1);
+ 10a:	81 e0       	ldi	r24, 0x01	; 1
+ 10c:	90 e0       	ldi	r25, 0x00	; 0
+ 10e:	0e 94 41 00 	call	0x82	; 0x82 <wait_avr>
+  write(0x3c, 0);
+ 112:	60 e0       	ldi	r22, 0x00	; 0
+ 114:	8c e3       	ldi	r24, 0x3C	; 60
+ 116:	0e 94 62 00 	call	0xc4	; 0xc4 <write>
+  write(0x0c, 0);
+ 11a:	60 e0       	ldi	r22, 0x00	; 0
+ 11c:	8c e0       	ldi	r24, 0x0C	; 12
+ 11e:	0e 94 62 00 	call	0xc4	; 0xc4 <write>
+  write(0x06, 0);
+ 122:	60 e0       	ldi	r22, 0x00	; 0
+ 124:	86 e0       	ldi	r24, 0x06	; 6
+ 126:	0e 94 62 00 	call	0xc4	; 0xc4 <write>
+  write(0x01, 0);
+ 12a:	60 e0       	ldi	r22, 0x00	; 0
+ 12c:	81 e0       	ldi	r24, 0x01	; 1
+ 12e:	0e 94 62 00 	call	0xc4	; 0xc4 <write>
+ 132:	08 95       	ret
+
+00000134 <puts_lcd2>:
+  }
+}
+
+void
+puts_lcd2(const char *s)
+{
+ 134:	cf 93       	push	r28
+ 136:	df 93       	push	r29
+  char c;
+  while ((c = *(s++)) != 0) {
+ 138:	ec 01       	movw	r28, r24
+ 13a:	21 96       	adiw	r28, 0x01	; 1
+ 13c:	fc 01       	movw	r30, r24
+ 13e:	80 81       	ld	r24, Z
+ 140:	88 23       	and	r24, r24
+ 142:	31 f0       	breq	.+12     	; 0x150 <puts_lcd2+0x1c>
+    write(c, 1);
+ 144:	61 e0       	ldi	r22, 0x01	; 1
+ 146:	0e 94 62 00 	call	0xc4	; 0xc4 <write>
+
+void
+puts_lcd2(const char *s)
+{
+  char c;
+  while ((c = *(s++)) != 0) {
+ 14a:	89 91       	ld	r24, Y+
+ 14c:	81 11       	cpse	r24, r1
+ 14e:	fa cf       	rjmp	.-12     	; 0x144 <puts_lcd2+0x10>
+    write(c, 1);
+  }
+}
+ 150:	df 91       	pop	r29
+ 152:	cf 91       	pop	r28
+ 154:	08 95       	ret
+
+00000156 <main>:
+#include "lcd.h"
+
+
+int main(void)
+{
+	ini_lcd();
+ 156:	0e 94 72 00 	call	0xe4	; 0xe4 <ini_lcd>
+	puts_lcd2("PROJECT 4");
+ 15a:	80 e6       	ldi	r24, 0x60	; 96
+ 15c:	90 e0       	ldi	r25, 0x00	; 0
+ 15e:	0e 94 9a 00 	call	0x134	; 0x134 <puts_lcd2>
+}
+ 162:	80 e0       	ldi	r24, 0x00	; 0
+ 164:	90 e0       	ldi	r25, 0x00	; 0
+ 166:	08 95       	ret
+
+00000168 <_exit>:
+ 168:	f8 94       	cli
+
+0000016a <__stop_program>:
+ 16a:	ff cf       	rjmp	.-2      	; 0x16a <__stop_program>
