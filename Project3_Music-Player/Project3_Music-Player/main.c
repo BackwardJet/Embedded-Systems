@@ -38,16 +38,16 @@ int main(void)
 				playABC(1,0.5);
 			}
 			if (key == 5) { // keypad: 4
-				playHotCrossBuns(1,0.99);
+				playHotCrossBuns(1,0.99); // lower volume
 			}
 			if (key == 6) { // keypad: 5
-				playABC(1,0.99);
+				playABC(1,0.99); // lower volume
 			}
 			if (key == 9) { // keypad: 7
-				playHotCrossBuns(2,0.5);
+				playHotCrossBuns(2,0.5); // twice as fast
 			}
 			if (key == 10) { // keypad: 8
-				playABC(2,0.5);
+				playABC(2,0.5); // twice as fast
 			}
 		}
   

@@ -912,7 +912,7 @@ int main(void)
 			if (key == 5) { // keypad: 4
  484:	85 30       	cpi	r24, 0x05	; 5
  486:	49 f4       	brne	.+18     	; 0x49a <main+0x70>
-				playHotCrossBuns(1,0.99);
+				playHotCrossBuns(1,0.99); // lower volume
  488:	44 ea       	ldi	r20, 0xA4	; 164
  48a:	50 e7       	ldi	r21, 0x70	; 112
  48c:	6d e7       	ldi	r22, 0x7D	; 125
@@ -925,7 +925,7 @@ int main(void)
 			if (key == 6) { // keypad: 5
  49a:	c6 30       	cpi	r28, 0x06	; 6
  49c:	49 f4       	brne	.+18     	; 0x4b0 <main+0x86>
-				playABC(1,0.99);
+				playABC(1,0.99); // lower volume
  49e:	44 ea       	ldi	r20, 0xA4	; 164
  4a0:	50 e7       	ldi	r21, 0x70	; 112
  4a2:	6d e7       	ldi	r22, 0x7D	; 125
@@ -938,7 +938,7 @@ int main(void)
 			if (key == 9) { // keypad: 7
  4b0:	c9 30       	cpi	r28, 0x09	; 9
  4b2:	49 f4       	brne	.+18     	; 0x4c6 <main+0x9c>
-				playHotCrossBuns(2,0.5);
+				playHotCrossBuns(2,0.5); // twice as fast
  4b4:	40 e0       	ldi	r20, 0x00	; 0
  4b6:	50 e0       	ldi	r21, 0x00	; 0
  4b8:	60 e0       	ldi	r22, 0x00	; 0
@@ -951,7 +951,7 @@ int main(void)
 			if (key == 10) { // keypad: 8
  4c6:	ca 30       	cpi	r28, 0x0A	; 10
  4c8:	21 f6       	brne	.-120    	; 0x452 <main+0x28>
-				playABC(2,0.5);
+				playABC(2,0.5); // twice as fast
  4ca:	40 e0       	ldi	r20, 0x00	; 0
  4cc:	50 e0       	ldi	r21, 0x00	; 0
  4ce:	60 e0       	ldi	r22, 0x00	; 0
