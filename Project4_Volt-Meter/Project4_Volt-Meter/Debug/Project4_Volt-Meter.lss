@@ -80,35 +80,35 @@ Disassembly of section .text:
   7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000082 <wait_avr>:
-  WDTCR = 15;
+	WDTCR = 15;
 }
 
 void
 wait_avr(unsigned short msec)
 {
   82:	9c 01       	movw	r18, r24
-  TCCR0 = 2;
-  84:	82 e0       	ldi	r24, 0x02	; 2
+	TCCR0 = 3;
+  84:	83 e0       	ldi	r24, 0x03	; 3
   86:	83 bf       	out	0x33, r24	; 51
-  while (msec--) {
-    TCNT0 = (unsigned char)(256 - (XTAL_FRQ / 8) * 0.00001);
-  88:	86 ef       	ldi	r24, 0xF6	; 246
+	while (msec--) {
+		TCNT0 = (unsigned char)(256 - (XTAL_FRQ / 64) * 0.001);
+  88:	83 e8       	ldi	r24, 0x83	; 131
 
 void
 wait_avr(unsigned short msec)
 {
-  TCCR0 = 2;
-  while (msec--) {
+	TCCR0 = 3;
+	while (msec--) {
   8a:	08 c0       	rjmp	.+16     	; 0x9c <wait_avr+0x1a>
-    TCNT0 = (unsigned char)(256 - (XTAL_FRQ / 8) * 0.00001);
+		TCNT0 = (unsigned char)(256 - (XTAL_FRQ / 64) * 0.001);
   8c:	82 bf       	out	0x32, r24	; 50
-    SET_BIT(TIFR, TOV0);
+		SET_BIT(TIFR, TOV0);
   8e:	98 b7       	in	r25, 0x38	; 56
   90:	91 60       	ori	r25, 0x01	; 1
   92:	98 bf       	out	0x38, r25	; 56
-    WDR();
+		WDR();
   94:	a8 95       	wdr
-    while (!GET_BIT(TIFR, TOV0));
+		while (!GET_BIT(TIFR, TOV0));
   96:	08 b6       	in	r0, 0x38	; 56
   98:	00 fe       	sbrs	r0, 0
   9a:	fd cf       	rjmp	.-6      	; 0x96 <wait_avr+0x14>
@@ -116,17 +116,17 @@ wait_avr(unsigned short msec)
 void
 wait_avr(unsigned short msec)
 {
-  TCCR0 = 2;
-  while (msec--) {
+	TCCR0 = 3;
+	while (msec--) {
   9c:	21 50       	subi	r18, 0x01	; 1
   9e:	31 09       	sbc	r19, r1
   a0:	a8 f7       	brcc	.-22     	; 0x8c <wait_avr+0xa>
-    TCNT0 = (unsigned char)(256 - (XTAL_FRQ / 8) * 0.00001);
-    SET_BIT(TIFR, TOV0);
-    WDR();
-    while (!GET_BIT(TIFR, TOV0));
-  }
-  TCCR0 = 0;
+		TCNT0 = (unsigned char)(256 - (XTAL_FRQ / 64) * 0.001);
+		SET_BIT(TIFR, TOV0);
+		WDR();
+		while (!GET_BIT(TIFR, TOV0));
+	}
+	TCCR0 = 0;
   a2:	13 be       	out	0x33, r1	; 51
   a4:	08 95       	ret
 

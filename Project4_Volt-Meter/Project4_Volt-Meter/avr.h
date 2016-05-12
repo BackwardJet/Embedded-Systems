@@ -12,6 +12,8 @@
 #define GET_BIT(p,i) ((p) &   (1 << (i)))
 
 #define WDR() asm volatile("wdr"::)
+#define CLI() asm volatile("cli"::)
+#define SEI() asm volatile("sei"::)
 #define NOP() asm volatile("nop"::)
 #define RST() for(;;);
 
