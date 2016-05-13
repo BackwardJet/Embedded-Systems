@@ -3,29 +3,29 @@ Project4_Volt-Meter.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000016c  00000000  00000000  00000074  2**1
+  0 .text         00000174  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         0000000a  00800060  0000016c  000001e0  2**0
+  1 .data         0000000a  00800060  00000174  000001e8  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  000001ea  2**0
+  2 .comment      00000030  00000000  00000000  000001f2  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000021c  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000224  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 000000a0  00000000  00000000  00000258  2**0
+  4 .debug_aranges 000000a0  00000000  00000000  00000260  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000005fc  00000000  00000000  000002f8  2**0
+  5 .debug_info   00000607  00000000  00000000  00000300  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000002d7  00000000  00000000  000008f4  2**0
+  6 .debug_abbrev 000002e4  00000000  00000000  00000907  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000281  00000000  00000000  00000bcb  2**0
+  7 .debug_line   000002e0  00000000  00000000  00000beb  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  0000010c  00000000  00000000  00000e4c  2**2
+  8 .debug_frame  0000010c  00000000  00000000  00000ecc  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000221  00000000  00000000  00000f58  2**0
+  9 .debug_str    00000221  00000000  00000000  00000fd8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000002fd  00000000  00000000  00001179  2**0
+ 10 .debug_loc    000002fd  00000000  00000000  000011f9  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000088  00000000  00000000  00001476  2**0
+ 11 .debug_ranges 00000088  00000000  00000000  000014f6  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -65,7 +65,7 @@ Disassembly of section .text:
   60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	ec e6       	ldi	r30, 0x6C	; 108
+  66:	e4 e7       	ldi	r30, 0x74	; 116
   68:	f1 e0       	ldi	r31, 0x01	; 1
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
@@ -74,7 +74,7 @@ Disassembly of section .text:
   72:	b1 07       	cpc	r27, r17
   74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
   76:	0e 94 ab 00 	call	0x156	; 0x156 <main>
-  7a:	0c 94 b4 00 	jmp	0x168	; 0x168 <_exit>
+  7a:	0c 94 b8 00 	jmp	0x170	; 0x170 <_exit>
 
 0000007e <__bad_interrupt>:
   7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -333,7 +333,7 @@ puts_lcd2(const char *s)
  154:	08 95       	ret
 
 00000156 <main>:
-#include "lcd.h"
+
 
 
 int main(void)
@@ -344,13 +344,24 @@ int main(void)
  15a:	80 e6       	ldi	r24, 0x60	; 96
  15c:	90 e0       	ldi	r25, 0x00	; 0
  15e:	0e 94 9a 00 	call	0x134	; 0x134 <puts_lcd2>
+	
+	SET_BIT(ADMUX,1);
+ 162:	39 9a       	sbi	0x07, 1	; 7
+	SET_BIT(ADMUX,6);
+ 164:	3e 9a       	sbi	0x07, 6	; 7
+	
+	// ADMUX = (1 << 6) | (1 << 1) | (1 << 0);
+	ADMUX = (1 << REFS0) | (1 << MUX1) | (1 << MUX0);
+ 166:	83 e4       	ldi	r24, 0x43	; 67
+ 168:	87 b9       	out	0x07, r24	; 7
+	
 }
- 162:	80 e0       	ldi	r24, 0x00	; 0
- 164:	90 e0       	ldi	r25, 0x00	; 0
- 166:	08 95       	ret
+ 16a:	80 e0       	ldi	r24, 0x00	; 0
+ 16c:	90 e0       	ldi	r25, 0x00	; 0
+ 16e:	08 95       	ret
 
-00000168 <_exit>:
- 168:	f8 94       	cli
+00000170 <_exit>:
+ 170:	f8 94       	cli
 
-0000016a <__stop_program>:
- 16a:	ff cf       	rjmp	.-2      	; 0x16a <__stop_program>
+00000172 <__stop_program>:
+ 172:	ff cf       	rjmp	.-2      	; 0x172 <__stop_program>
