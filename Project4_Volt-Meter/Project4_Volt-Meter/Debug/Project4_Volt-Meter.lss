@@ -3,29 +3,29 @@ Project4_Volt-Meter.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000029e  00000000  00000000  00000074  2**1
+  0 .text         000002be  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000038  00800060  0000029e  00000312  2**0
+  1 .data         00000038  00800060  000002be  00000332  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  0000034a  2**0
+  2 .comment      00000030  00000000  00000000  0000036a  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000037c  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000039c  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 000000c8  00000000  00000000  000003b8  2**0
+  4 .debug_aranges 000000f0  00000000  00000000  000003d8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000820  00000000  00000000  00000480  2**0
+  5 .debug_info   0000090f  00000000  00000000  000004c8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000003d6  00000000  00000000  00000ca0  2**0
+  6 .debug_abbrev 00000438  00000000  00000000  00000dd7  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000003ca  00000000  00000000  00001076  2**0
+  7 .debug_line   00000429  00000000  00000000  0000120f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000168  00000000  00000000  00001440  2**2
+  8 .debug_frame  000001b0  00000000  00000000  00001638  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000023f  00000000  00000000  000015a8  2**0
+  9 .debug_str    00000279  00000000  00000000  000017e8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000045c  00000000  00000000  000017e7  2**0
+ 10 .debug_loc    00000511  00000000  00000000  00001a61  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 000000a0  00000000  00000000  00001c43  2**0
+ 11 .debug_ranges 000000b8  00000000  00000000  00001f72  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -65,7 +65,7 @@ Disassembly of section .text:
   60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	ee e9       	ldi	r30, 0x9E	; 158
+  66:	ee eb       	ldi	r30, 0xBE	; 190
   68:	f2 e0       	ldi	r31, 0x02	; 2
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
@@ -73,8 +73,8 @@ Disassembly of section .text:
   70:	a8 39       	cpi	r26, 0x98	; 152
   72:	b1 07       	cpc	r27, r17
   74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
-  76:	0e 94 1d 01 	call	0x23a	; 0x23a <main>
-  7a:	0c 94 4d 01 	jmp	0x29a	; 0x29a <_exit>
+  76:	0e 94 36 01 	call	0x26c	; 0x26c <main>
+  7a:	0c 94 5d 01 	jmp	0x2ba	; 0x2ba <_exit>
 
 0000007e <__bad_interrupt>:
   7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -527,83 +527,111 @@ puts_lcd2(const char *s)
  236:	cf 91       	pop	r28
  238:	08 95       	ret
 
-0000023a <main>:
+0000023a <set_lcd_lines>:
 
+void set_lcd_lines(const char *line1,const char *line2) {
+ 23a:	0f 93       	push	r16
+ 23c:	1f 93       	push	r17
+ 23e:	cf 93       	push	r28
+ 240:	df 93       	push	r29
+ 242:	8c 01       	movw	r16, r24
+ 244:	eb 01       	movw	r28, r22
+	pos_lcd(0,0);
+ 246:	60 e0       	ldi	r22, 0x00	; 0
+ 248:	80 e0       	ldi	r24, 0x00	; 0
+ 24a:	0e 94 f8 00 	call	0x1f0	; 0x1f0 <pos_lcd>
+	puts_lcd2(line1);
+ 24e:	c8 01       	movw	r24, r16
+ 250:	0e 94 0c 01 	call	0x218	; 0x218 <puts_lcd2>
+	pos_lcd(1,0);
+ 254:	60 e0       	ldi	r22, 0x00	; 0
+ 256:	81 e0       	ldi	r24, 0x01	; 1
+ 258:	0e 94 f8 00 	call	0x1f0	; 0x1f0 <pos_lcd>
+	puts_lcd2(line2);
+ 25c:	ce 01       	movw	r24, r28
+ 25e:	0e 94 0c 01 	call	0x218	; 0x218 <puts_lcd2>
+}
+ 262:	df 91       	pop	r29
+ 264:	cf 91       	pop	r28
+ 266:	1f 91       	pop	r17
+ 268:	0f 91       	pop	r16
+ 26a:	08 95       	ret
+
+0000026c <main>:
+#include <stdio.h>
 
 
 int main(void)
 {
 	ini_lcd();
- 23a:	0e 94 cb 00 	call	0x196	; 0x196 <ini_lcd>
-	// puts_lcd2("PROJECT 4");
-	
-	SET_BIT(ADMUX,1);
- 23e:	39 9a       	sbi	0x07, 1	; 7
-	SET_BIT(ADMUX,6);
- 240:	3e 9a       	sbi	0x07, 6	; 7
-	
-	// ADMUX = (1 << 6) | (1 << 1) | (1 << 0);
-	ADMUX = (1 << REFS0) | (1 << MUX1) | (1 << MUX0);
- 242:	83 e4       	ldi	r24, 0x43	; 67
- 244:	87 b9       	out	0x07, r24	; 7
-	
-	ADCSRA = (1 << ADEN) | (1 << ADSC);
- 246:	80 ec       	ldi	r24, 0xC0	; 192
- 248:	86 b9       	out	0x06, r24	; 6
-	
-	
-	
-	pos_lcd(0,0);
- 24a:	60 e0       	ldi	r22, 0x00	; 0
- 24c:	80 e0       	ldi	r24, 0x00	; 0
- 24e:	0e 94 f8 00 	call	0x1f0	; 0x1f0 <pos_lcd>
+ 26c:	0e 94 cb 00 	call	0x196	; 0x196 <ini_lcd>
+
+	init_registers();
+ 270:	0e 94 58 01 	call	0x2b0	; 0x2b0 <init_registers>
 	puts_lcd2("1:Begin Sampling");
- 252:	80 e6       	ldi	r24, 0x60	; 96
- 254:	90 e0       	ldi	r25, 0x00	; 0
- 256:	0e 94 0c 01 	call	0x218	; 0x218 <puts_lcd2>
 	pos_lcd(1,0);
- 25a:	60 e0       	ldi	r22, 0x00	; 0
- 25c:	81 e0       	ldi	r24, 0x01	; 1
- 25e:	0e 94 f8 00 	call	0x1f0	; 0x1f0 <pos_lcd>
 	puts_lcd2("2:Restart");
- 262:	81 e7       	ldi	r24, 0x71	; 113
- 264:	90 e0       	ldi	r25, 0x00	; 0
- 266:	0e 94 0c 01 	call	0x218	; 0x218 <puts_lcd2>
+	*/
+	
+	set_lcd_lines("1:Begin Sampling", "2:Restart");
+ 274:	60 e6       	ldi	r22, 0x60	; 96
+ 276:	70 e0       	ldi	r23, 0x00	; 0
+ 278:	8a e6       	ldi	r24, 0x6A	; 106
+ 27a:	90 e0       	ldi	r25, 0x00	; 0
+ 27c:	0e 94 1d 01 	call	0x23a	; 0x23a <set_lcd_lines>
+	
 	for (;;) {
 		unsigned char key = get_key();
- 26a:	0e 94 7c 00 	call	0xf8	; 0xf8 <get_key>
+ 280:	0e 94 7c 00 	call	0xf8	; 0xf8 <get_key>
 		if (key == 1) {
- 26e:	81 30       	cpi	r24, 0x01	; 1
- 270:	59 f4       	brne	.+22     	; 0x288 <main+0x4e>
+ 284:	81 30       	cpi	r24, 0x01	; 1
+ 286:	59 f4       	brne	.+22     	; 0x29e <main+0x32>
 			// start sampling
 			clr_lcd();
- 272:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <clr_lcd>
+ 288:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <clr_lcd>
 			puts_lcd2("key 1 pressed");
- 276:	8b e7       	ldi	r24, 0x7B	; 123
- 278:	90 e0       	ldi	r25, 0x00	; 0
- 27a:	0e 94 0c 01 	call	0x218	; 0x218 <puts_lcd2>
+ 28c:	8b e7       	ldi	r24, 0x7B	; 123
+ 28e:	90 e0       	ldi	r25, 0x00	; 0
+ 290:	0e 94 0c 01 	call	0x218	; 0x218 <puts_lcd2>
 			while (1) {
 				wait_avr(500);
- 27e:	84 ef       	ldi	r24, 0xF4	; 244
- 280:	91 e0       	ldi	r25, 0x01	; 1
- 282:	0e 94 41 00 	call	0x82	; 0x82 <wait_avr>
+ 294:	84 ef       	ldi	r24, 0xF4	; 244
+ 296:	91 e0       	ldi	r25, 0x01	; 1
+ 298:	0e 94 41 00 	call	0x82	; 0x82 <wait_avr>
 			}
- 286:	fb cf       	rjmp	.-10     	; 0x27e <main+0x44>
+ 29c:	fb cf       	rjmp	.-10     	; 0x294 <main+0x28>
 		}
 		if (key == 2) {
- 288:	82 30       	cpi	r24, 0x02	; 2
- 28a:	79 f7       	brne	.-34     	; 0x26a <main+0x30>
+ 29e:	82 30       	cpi	r24, 0x02	; 2
+ 2a0:	79 f7       	brne	.-34     	; 0x280 <main+0x14>
 			// reset
 			clr_lcd();
- 28c:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <clr_lcd>
+ 2a2:	0e 94 f3 00 	call	0x1e6	; 0x1e6 <clr_lcd>
 			puts_lcd2("key 2 pressed");
- 290:	89 e8       	ldi	r24, 0x89	; 137
- 292:	90 e0       	ldi	r25, 0x00	; 0
- 294:	0e 94 0c 01 	call	0x218	; 0x218 <puts_lcd2>
- 298:	e8 cf       	rjmp	.-48     	; 0x26a <main+0x30>
+ 2a6:	89 e8       	ldi	r24, 0x89	; 137
+ 2a8:	90 e0       	ldi	r25, 0x00	; 0
+ 2aa:	0e 94 0c 01 	call	0x218	; 0x218 <puts_lcd2>
+ 2ae:	e8 cf       	rjmp	.-48     	; 0x280 <main+0x14>
 
-0000029a <_exit>:
- 29a:	f8 94       	cli
+000002b0 <init_registers>:
+void init_registers() {
+	// SET_BIT(ADMUX,1);
+	// SET_BIT(ADMUX,6);
+	
+	// ADMUX = (1 << 6) | (1 << 1) | (1 << 0);
+	ADMUX = (1 << REFS0);
+ 2b0:	80 e4       	ldi	r24, 0x40	; 64
+ 2b2:	87 b9       	out	0x07, r24	; 7
+	// ADMUX = (1 << REFS0) | (1 << MUX1) | (1 << MUX0);
+	
+	
+	ADCSRA = (1 << ADEN) | (1 << ADSC);
+ 2b4:	80 ec       	ldi	r24, 0xC0	; 192
+ 2b6:	86 b9       	out	0x06, r24	; 6
+ 2b8:	08 95       	ret
 
-0000029c <__stop_program>:
- 29c:	ff cf       	rjmp	.-2      	; 0x29c <__stop_program>
+000002ba <_exit>:
+ 2ba:	f8 94       	cli
+
+000002bc <__stop_program>:
+ 2bc:	ff cf       	rjmp	.-2      	; 0x2bc <__stop_program>

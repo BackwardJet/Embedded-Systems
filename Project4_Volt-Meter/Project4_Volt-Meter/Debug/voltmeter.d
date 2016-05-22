@@ -1,4 +1,4 @@
-main.d main.o: .././main.c .././avr.h \
+voltmeter.d voltmeter.o: .././voltmeter.c .././avr.h \
  c:\program\ files\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  c:\program\ files\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
@@ -13,7 +13,7 @@ main.d main.o: .././main.c .././avr.h \
  c:\program\ files\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
  c:\program\ files\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h \
  c:\program\ files\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stddef.h \
- .././lcd.h .././keypad.h .././voltmeter.h \
+ .././voltmeter.h \
  c:\program\ files\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
  c:\program\ files\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdarg.h
 
@@ -46,10 +46,6 @@ c:\program\ files\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include
 c:\program\ files\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h:
 
 c:\program\ files\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stddef.h:
-
-.././lcd.h:
-
-.././keypad.h:
 
 .././voltmeter.h:
 

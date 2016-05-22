@@ -117,3 +117,10 @@ puts_lcd2(const char *s)
     write(c, 1);
   }
 }
+
+void set_lcd_lines(const char *line1,const char *line2) {
+	pos_lcd(0,0);
+	puts_lcd2(line1);
+	pos_lcd(1,0);
+	puts_lcd2(line2);
+}

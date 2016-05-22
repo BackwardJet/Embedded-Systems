@@ -80,6 +80,9 @@ Discarded input sections
  .debug_str     0x00000000      0x27f music.o
  .comment       0x00000000       0x31 music.o
  .debug_frame   0x00000000      0x18c music.o
+ .text          0x00000000        0x0 voltmeter.o
+ .data          0x00000000        0x0 voltmeter.o
+ .bss           0x00000000        0x0 voltmeter.o
  .text          0x00000000        0x0 c:/program files/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(addsf3.o)
  .data          0x00000000        0x0 c:/program files/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(addsf3.o)
  .bss           0x00000000        0x0 c:/program files/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(addsf3.o)
@@ -230,6 +233,7 @@ LOAD keypad.o
 LOAD lcd.o
 LOAD main.o
 LOAD music.o
+LOAD voltmeter.o
 START GROUP
 LOAD c:/program files/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a
 END GROUP
@@ -330,7 +334,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x29e
+.text           0x00000000      0x2be
  *(.vectors)
  .vectors       0x00000000       0x54 C:/Program Files/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.98/gcc/dev/atmega32/avr5/crtatmega32.o
                 0x00000000                __vector_default
@@ -426,13 +430,19 @@ END GROUP
  .text.puts_lcd2
                 0x00000218       0x22 lcd.o
                 0x00000218                puts_lcd2
- .text.main     0x0000023a       0x60 main.o
-                0x0000023a                main
-                0x0000029a                . = ALIGN (0x2)
+ .text.set_lcd_lines
+                0x0000023a       0x32 lcd.o
+                0x0000023a                set_lcd_lines
+ .text.main     0x0000026c       0x44 main.o
+                0x0000026c                main
+ .text.init_registers
+                0x000002b0        0xa voltmeter.o
+                0x000002b0                init_registers
+                0x000002ba                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000029a        0x0 c:/program files/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
-                0x0000029a                _exit
-                0x0000029a                exit
+ .fini9         0x000002ba        0x0 c:/program files/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
+                0x000002ba                _exit
+                0x000002ba                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -451,11 +461,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000029a        0x4 c:/program files/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
+ .fini0         0x000002ba        0x4 c:/program files/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x0000029e                _etext = .
+                0x000002be                _etext = .
 
-.data           0x00800060       0x38 load address 0x0000029e
+.data           0x00800060       0x38 load address 0x000002be
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -475,8 +485,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 0x00800098                PROVIDE (__bss_end, .)
-                0x0000029e                __data_load_start = LOADADDR (.data)
-                0x000002d6                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000002be                __data_load_start = LOADADDR (.data)
+                0x000002f6                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800098        0x0
                 0x00800098                PROVIDE (__noinit_start, .)
@@ -529,6 +539,7 @@ END GROUP
  .comment       0x00000030       0x31 keypad.o
  .comment       0x00000030       0x31 lcd.o
  .comment       0x00000030       0x31 main.o
+ .comment       0x00000030       0x31 voltmeter.o
 
 .note.gnu.avr.deviceinfo
                 0x00000000       0x3c
@@ -550,65 +561,73 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0xc8
+.debug_aranges  0x00000000       0xf0
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x28 avr.o
  .debug_aranges
                 0x00000028       0x28 keypad.o
  .debug_aranges
-                0x00000050       0x58 lcd.o
+                0x00000050       0x60 lcd.o
  .debug_aranges
-                0x000000a8       0x20 main.o
+                0x000000b0       0x20 main.o
+ .debug_aranges
+                0x000000d0       0x20 voltmeter.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x820
+.debug_info     0x00000000      0x90f
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000       0xb4 avr.o
  .debug_info    0x000000b4       0xfa keypad.o
- .debug_info    0x000001ae      0x476 lcd.o
- .debug_info    0x00000624      0x1fc main.o
+ .debug_info    0x000001ae      0x50d lcd.o
+ .debug_info    0x000006bb      0x1cb main.o
+ .debug_info    0x00000886       0x89 voltmeter.o
 
-.debug_abbrev   0x00000000      0x3d6
+.debug_abbrev   0x00000000      0x438
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0x7a avr.o
  .debug_abbrev  0x0000007a       0xa2 keypad.o
- .debug_abbrev  0x0000011c      0x1b8 lcd.o
- .debug_abbrev  0x000002d4      0x102 main.o
+ .debug_abbrev  0x0000011c      0x1c7 lcd.o
+ .debug_abbrev  0x000002e3      0x106 main.o
+ .debug_abbrev  0x000003e9       0x4f voltmeter.o
 
-.debug_line     0x00000000      0x3ca
+.debug_line     0x00000000      0x429
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000       0xae avr.o
  .debug_line    0x000000ae       0xc1 keypad.o
- .debug_line    0x0000016f      0x18f lcd.o
- .debug_line    0x000002fe       0xcc main.o
+ .debug_line    0x0000016f      0x1a4 lcd.o
+ .debug_line    0x00000313       0x7b main.o
+ .debug_line    0x0000038e       0x9b voltmeter.o
 
-.debug_frame    0x00000000      0x168
+.debug_frame    0x00000000      0x1b0
  *(.debug_frame)
  .debug_frame   0x00000000       0x34 avr.o
  .debug_frame   0x00000034       0x5c keypad.o
- .debug_frame   0x00000090       0xb4 lcd.o
- .debug_frame   0x00000144       0x24 main.o
+ .debug_frame   0x00000090       0xd8 lcd.o
+ .debug_frame   0x00000168       0x24 main.o
+ .debug_frame   0x0000018c       0x24 voltmeter.o
 
-.debug_str      0x00000000      0x23f
+.debug_str      0x00000000      0x279
  *(.debug_str)
  .debug_str     0x00000000      0x185 avr.o
                                 0x1b9 (size before relaxing)
  .debug_str     0x00000185       0x1e keypad.o
                                 0x1a3 (size before relaxing)
- .debug_str     0x000001a3       0x8b lcd.o
-                                0x231 (size before relaxing)
- .debug_str     0x0000022e       0x11 main.o
-                                0x1e1 (size before relaxing)
+ .debug_str     0x000001a3       0xa5 lcd.o
+                                0x24b (size before relaxing)
+ .debug_str     0x00000248       0x20 main.o
+                                0x1ee (size before relaxing)
+ .debug_str     0x00000268       0x11 voltmeter.o
+                                0x1aa (size before relaxing)
 
-.debug_loc      0x00000000      0x45c
+.debug_loc      0x00000000      0x511
  *(.debug_loc)
  .debug_loc     0x00000000       0x28 avr.o
  .debug_loc     0x00000028      0x141 keypad.o
- .debug_loc     0x00000169      0x2d5 lcd.o
- .debug_loc     0x0000043e       0x1e main.o
+ .debug_loc     0x00000169      0x38a lcd.o
+ .debug_loc     0x000004f3       0x1e main.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -628,12 +647,13 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0xa0
+.debug_ranges   0x00000000       0xb8
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x18 avr.o
  .debug_ranges  0x00000018       0x18 keypad.o
- .debug_ranges  0x00000030       0x60 lcd.o
- .debug_ranges  0x00000090       0x10 main.o
+ .debug_ranges  0x00000030       0x68 lcd.o
+ .debug_ranges  0x00000098       0x10 main.o
+ .debug_ranges  0x000000a8       0x10 voltmeter.o
 
 .debug_macro
  *(.debug_macro)

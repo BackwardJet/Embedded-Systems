@@ -41,7 +41,8 @@ C_SRCS +=  \
 ../keypad.c \
 ../lcd.c \
 ../main.c \
-../music.c
+../music.c \
+../voltmeter.c
 
 
 PREPROCESSING_SRCS += 
@@ -55,28 +56,32 @@ avr.o \
 keypad.o \
 lcd.o \
 main.o \
-music.o
+music.o \
+voltmeter.o
 
 OBJS_AS_ARGS +=  \
 avr.o \
 keypad.o \
 lcd.o \
 main.o \
-music.o
+music.o \
+voltmeter.o
 
 C_DEPS +=  \
 avr.d \
 keypad.d \
 lcd.d \
 main.d \
-music.d
+music.d \
+voltmeter.d
 
 C_DEPS_AS_ARGS +=  \
 avr.d \
 keypad.d \
 lcd.d \
 main.d \
-music.d
+music.d \
+voltmeter.d
 
 OUTPUT_FILE_PATH +=Project4_Volt-Meter.elf
 
@@ -92,6 +97,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 
