@@ -10,8 +10,10 @@
 #include "keypad.h"
 #include "voltmeter.h"
 #include <stdio.h>
+#include <limits.h>
 
-char buf[17];
+char line1[17];
+char line2[17];
 
 int main(void)
 {
@@ -20,7 +22,10 @@ int main(void)
 	init_registers();
 	
 	// set_lcd_lines("1:Begin Sampling", "2:Restart");
-	
+	unsigned int average = 0;
+	unsigned int count = 0;
+	unsigned int max = 0;
+	unsigned int min = INT_MAX;
 	for (;;) {
 		unsigned char key = get_key();
 		set_lcd_lines("1:Begin Sampling", "2:Restart");
@@ -39,11 +44,12 @@ int main(void)
 				wait_avr(500);
 				clr_lcd();
 				
-				unsigned int result = calc_adc();
+				struct voltages values = calc_adc(average, count, max, min);
 				
-				sprintf(buf,"%d",result);
 				
-				puts_lcd2(buf);
+				sprintf(line1,"%d",values.inst_voltage);
+				
+				puts_lcd2(line1);
 				
 
 			}

@@ -9,9 +9,17 @@
 #ifndef VOLTMETER_H_
 #define VOLTMETER_H_
 
+struct voltages {
+	unsigned int inst_voltage;
+	unsigned int average;
+	unsigned int total;
+	unsigned int count;
+	unsigned int max;
+	unsigned int min;
+};
 
 void init_registers();
-unsigned int calc_adc();
+struct voltages calc_adc(unsigned int total, unsigned int count, unsigned int max, unsigned int min);
 
 
 #endif /* VOLTMETER_H_ */
