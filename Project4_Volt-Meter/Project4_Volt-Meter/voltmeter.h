@@ -19,7 +19,7 @@ struct voltages {
 };
 
 void init_registers();
-struct voltages calc_adc(unsigned int total, unsigned int count, unsigned int max, unsigned int min);
+struct voltages calc_adc(unsigned int average, unsigned int total, unsigned int count, unsigned int max, unsigned int min);
 
 
 #endif /* VOLTMETER_H_ */

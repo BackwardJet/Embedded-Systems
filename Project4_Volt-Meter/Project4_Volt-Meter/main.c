@@ -23,6 +23,7 @@ int main(void)
 	
 	// set_lcd_lines("1:Begin Sampling", "2:Restart");
 	unsigned int average = 0;
+	unsigned int total = 0;
 	unsigned int count = 0;
 	unsigned int max = 0;
 	unsigned int min = INT_MAX;
@@ -44,12 +45,18 @@ int main(void)
 				wait_avr(500);
 				clr_lcd();
 				
-				struct voltages values = calc_adc(average, count, max, min);
+				struct voltages values = calc_adc(average, total, count, max, min);
+				average = values.average;
+				total = values.total;
+				count = values.count;
+				max = values.max;
+				min = values.min;
 				
 				
 				sprintf(line1,"%d",values.inst_voltage);
+				sprintf(line2,"%d",values.average);
 				
-				puts_lcd2(line1);
+				set_lcd_lines(line1,line2);
 				
 
 			}

@@ -31,11 +31,10 @@ void init_registers() {
 	*/
 }
 
-struct voltages calc_adc(unsigned int average, unsigned int count, unsigned int max, unsigned int min)
+struct voltages calc_adc(unsigned int average, unsigned int total, unsigned int count, unsigned int max, unsigned int min)
 {
 	ADCSRA = (1 << ADEN) | (1 << ADSC);
 	unsigned int inst_voltage = 5*((ADC)/10.23);	
-	unsigned int total = average * count;
 	total += inst_voltage;
 	count++;
 	if (inst_voltage > max) {
