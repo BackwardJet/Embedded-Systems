@@ -11,6 +11,7 @@
 
 
 void init_registers();
+unsigned int calc_adc();
 
 
 #endif /* VOLTMETER_H_ */

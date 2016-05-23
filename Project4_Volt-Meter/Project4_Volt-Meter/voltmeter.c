@@ -30,3 +30,10 @@ void init_registers() {
 	Bit 6 – ADSC: Setting ADSC bit to binary 1 starts the conversion process. This bit clears automatically when the conversion process completes. Therefore, this bit provides an indication that the conversion has completed.
 	*/
 }
+
+unsigned int calc_adc()
+{
+	ADCSRA = (1 << ADEN) | (1 << ADSC);
+	unsigned int inst_voltage = 5*((ADC)/10.23);	
+	return inst_voltage;
+}
