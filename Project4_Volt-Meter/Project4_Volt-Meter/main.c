@@ -33,13 +33,16 @@ int main(void)
 		if (key == 1) {
 			// start sampling
 			clr_lcd();
-			puts_lcd2("key 1 pressed");
 			while (1) {
 				unsigned char key_again = get_key();
 				if (key_again == 2) {
 					// reset
 					clr_lcd();
-					puts_lcd2("key2 pressed");
+					average = 0;
+					total = 0;
+					count = 0;
+					max = 0;
+					min = INT_MAX;
 					break;
 				}
 				wait_avr(500);
@@ -53,8 +56,8 @@ int main(void)
 				min = values.min;
 				
 				
-				sprintf(line1,"%d",values.inst_voltage);
-				sprintf(line2,"%d",values.average);
+				sprintf(line1,"I:%01d.%02d A:%01d.%02d",(values.inst_voltage / 100), (values.inst_voltage % 100),(average / 100),(average % 100));
+				sprintf(line2,"M:%01d.%02d m:%01d.%02d",(max / 100), (max % 100), (min / 100), (min % 100));
 				
 				set_lcd_lines(line1,line2);
 				
