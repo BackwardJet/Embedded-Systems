@@ -1,9 +1,8 @@
-
 /*
- * Project4_Volt-Meter.c
+ * Project5.c
  *
- * Created: 5/11/2016 5:16:28 PM
- * Author : Tej Vuligonda
+ * Created: 5/30/2016 10:30:00 PM
+ * Author : Tej Vuligonda & Luis Lopez
  */ 
 
 #include "avr.h"
@@ -11,6 +10,7 @@
 #include "keypad.h"
 //#include "voltmeter.h"
 #include <stdio.h>
+#include<stdlib.h>
 #include <string.h>
 
 char a[5] = "12";
@@ -41,8 +41,8 @@ char y[5] = "2122";
 char z[5] = "2211";
 
 //Arrays to store phrase to put on LCD
-char line1[17];
-char line2[17];
+char line1[17] = "EEEEEEEEEEEEEEEE";
+char line2[17] = "";
 
 
 // ascii for . is 46
@@ -52,54 +52,130 @@ char line2[17];
 int get_morse_char(int* gmc)
 {
 	puts_lcd2("getting chars");
+	//wait_avr(1000);
 	//static int morse_char[5];
-	for (;;) {
-		// start sampling
-		int counter = 0;
-		while (1) {
-			unsigned char key_again = get_key();
-			wait_avr(100);
-			if (counter >= 5)
-				return counter;
-			if (key_again == 1) {
-				gmc[counter] = 1;
-				counter++;
-			}
-			else if (key_again == 2)
+	int counter = 0;
+	while (1) {
+		//wait_avr(150);
+		unsigned char key_1 = get_key();
+		wait_avr(100);
+		if (counter >= 4)
+			return counter;
+		if (key_1 == 1) {
+			gmc[counter] = 1;
+			counter++;
+			key_1 = get_key();
+			while(key_1 == 1)
 			{
-				gmc[counter] = 2;
-				counter++;
+				key_1 = get_key();
+				clr_lcd();
+				puts_lcd2("KEYPAD 1");
+				//wait_avr(20);
 			}
-			else if (key_again == 15)
-				return counter;
 		}
+		else if (key_1 == 2){
+			gmc[counter] = 2;
+			counter++;
+			key_1 = get_key();
+			while(key_1 == 2)
+			{
+				key_1 = get_key();
+				clr_lcd();
+				puts_lcd2("KEYPAD 2");
+				//wait_avr(20);
+			}
+		}
+		else if (key_1 == 13)
+			return 0;
+		else if (key_1 == 15)
+			return counter;
+		else if(key_1 == 16)
+			return -1;
+		
 	}
+	
 	
 }
 
-void get_morse_word(int* gmc,int gmc_size, char* gmw, int gmw_size)
+void get_morse_word(char* letter, char* buf, int* gmc, int gmc_size, char* gmw)
 {
-	char buf[1];
-	char letter[5];
-	if(!gmc || gmw_size < 1 || gmc_size < 1)
+	if(!gmw || gmc_size < 1)
 		return;
-	else{
-		for(int i = 0; i < gmc_size; i++)
-		{
-			sprintf(buf, "%d", gmc[i]);
-			strcat(letter, buf);
-		}
-			
-		if (strcmp(letter, a)){
-			strcat(gmw, "A");			
-		}
+	puts_lcd2("inside gmw");
+	wait_avr(1000);
+	clr_lcd();
+	memset(&letter[0], 0, sizeof(letter));
+	for(int i = 0; i < gmc_size; i++)
+	{
+		sprintf(buf, "%d", gmc[i]);
+		strcat(letter, buf);
 	}
+	puts_lcd2("Letter:");
+	puts_lcd2(letter);
+	wait_avr(1000);
+	clr_lcd();
+	if (atoi(letter) == atoi(a))
+		strcat(gmw, "A");		
+	else if(atoi(letter) == atoi(b))
+		strcat(gmw, "B");
+	else if(atoi(letter) == atoi(c))
+		strcat(gmw, "C");
+	else if(atoi(letter) == atoi(d))
+		strcat(gmw, "D");
+	else if(atoi(letter) == atoi(e))
+		strcat(gmw, "E");
+	else if(atoi(letter) == atoi(f))
+		strcat(gmw, "F");
+	else if(atoi(letter) == atoi(g))
+		strcat(gmw, "G");
+	else if(atoi(letter) == atoi(h))
+		strcat(gmw, "H");
+	else if(atoi(letter) == atoi(i))
+		strcat(gmw, "I");
+	else if(atoi(letter) == atoi(j))
+		strcat(gmw, "J");
+	else if(atoi(letter) == atoi(k))
+		strcat(gmw, "K");
+	else if(atoi(letter) == atoi(l))
+		strcat(gmw, "L");
+	else if(atoi(letter) == atoi(m))
+		strcat(gmw, "M");
+	else if(atoi(letter) == atoi(n))
+		strcat(gmw, "N");
+	else if(atoi(letter) == atoi(o))
+		strcat(gmw, "O");
+	else if(atoi(letter) == atoi(p))
+		strcat(gmw, "P");
+	else if(atoi(letter) == atoi(q))
+		strcat(gmw, "Q");
+	else if(atoi(letter) == atoi(r))
+		strcat(gmw, "R");
+	else if(atoi(letter) == atoi(s))
+		strcat(gmw, "S");
+	else if(atoi(letter) == atoi(t))
+		strcat(gmw, "T");
+	else if(atoi(letter) == atoi(u))
+		strcat(gmw, "U");
+	else if(atoi(letter) == atoi(v))
+		strcat(gmw, "V");
+	else if(atoi(letter) == atoi(w))
+		strcat(gmw, "W");
+	else if(atoi(letter) == atoi(x))
+		strcat(gmw, "X");
+	else if(atoi(letter) == atoi(y))
+		strcat(gmw, "Y");
+	else if(atoi(letter) == atoi(z))
+		strcat(gmw, "Z");
+	//letter = "";
+	//free(buf);
+	//free(letter);
 }
 
 int main(void)
 {
 	ini_lcd();
-	set_lcd_lines("Project 5", "Started");
+	set_lcd_lines("Press A to start", "Press * to quit");
+	
 	// keypad: 1 (key == 1) -> short press
 	// keypad: 2 (key == 2) -> long press?
 	// keypad: # (key == 15) -> separate letters
@@ -110,15 +186,25 @@ int main(void)
 	int gmc[5];
 	int gmc_size;
 	//stores word
-	char gmw[17];
+	
+	char gmd[17] = "EEEEEEEEEEEEEEE";
+	int gmw_amount = 31;
+	
+	int check = 1;
 	
 	
-	for (;;) {
+	static char buf[1] = "";
+	static char letter[5] = "";	
+
+
+	for (;;){
+			
 		unsigned char key = get_key();
 		wait_avr(150);
-		if (key == 13) {
+			
+		if (key == 13)
 			break;
-		}
+				
 		// start sampling
 		else if (key == 4)
 		{
@@ -127,11 +213,56 @@ int main(void)
 			{
 				gmc_size = get_morse_char(gmc);
 				clr_lcd();
-				get_morse_word(gmc, gmc_size, gmw, 17);
-				puts_lcd2(gmw);
-				wait_avr(500);
+				get_morse_word(buf, letter, gmc, gmc_size, gmd);
+				
+				if (gmc_size == -1)
+				{
+					gmw_amount++;
+					strcat(gmd, " ");
+				}
+				else if (gmc_size > 0)
+				{
+					gmw_amount++;
+					if (gmw_amount == 32)
+					{
+						strcat(line2, gmd);
+						memset(&gmd[0], 0, sizeof(gmd));
+						check = 0;
+					}
+					else if (gmw_amount == 16)
+					{
+						strcat(line1, gmd);
+						memset(&gmd[0], 0, sizeof(gmd));
+
+					}
+				}
+				else if (gmc_size == 0)
+					break;
+					
+					
+				if (gmw_amount < 16)
+				{
+					set_lcd_lines(gmd, line2);
+					wait_avr(2000);
+				}
+				else if (gmw_amount >= 16 && gmw_amount < 32)
+				{
+					set_lcd_lines(line1, gmd);
+					wait_avr(2000);
+				}
+				
+				clr_lcd();
+				
+				if (check == 0)
+					break;
 			}
-		}		
+			set_lcd_lines(line1, line2);
+			//wait_avr(5000);
+			break;
+			//gmw_amount = 0;
+			//memset(&line1[0], 0, sizeof(line1));
+			//memset(&line2[0], 0, sizeof(line2));
+		}
 	}
 	return 0;
 }
