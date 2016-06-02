@@ -8,6 +8,7 @@
 #include "avr.h"
 #include "lcd.h"
 #include "keypad.h"
+#include "music.h"
 //#include "voltmeter.h"
 #include <stdio.h>
 #include<stdlib.h>
@@ -64,6 +65,7 @@ int get_morse_char(int* gmc)
 		if (key_1 == 1) {
 			gmc[counter] = 1;
 			counter++;
+			play_note(90.9090909,550/4); // 550 Hz for 0.25 sec
 			key_1 = get_key();
 			while(key_1 == 1)
 			{
@@ -76,6 +78,7 @@ int get_morse_char(int* gmc)
 		else if (key_1 == 2){
 			gmc[counter] = 2;
 			counter++;
+			play_note(90.9090909,550/2); // 550 Hz for 0.5 sec
 			key_1 = get_key();
 			while(key_1 == 2)
 			{

@@ -8,16 +8,26 @@
 #include "avr.h"
 
 
-
+void wait_avr_music(unsigned short msec)
+{
+  TCCR0 = 2;
+  while (msec--) {
+    TCNT0 = (unsigned char)(256 - (XTAL_FRQ / 8) * 0.00001);
+    SET_BIT(TIFR, TOV0);
+    WDR();
+    while (!GET_BIT(TIFR, TOV0));
+  }
+  TCCR0 = 0;
+}
 
 void play_note(int freq, int dur)
 {
 	for(int i = 0; i < (dur); i++)
 	{
 		SET_BIT(PORTB,3);
-		wait_avr(freq);
+		wait_avr_music(freq);
 		CLR_BIT(PORTB,3);
-		wait_avr(freq);
+		wait_avr_music(freq);
 	}
 	
 }
@@ -27,9 +37,9 @@ void play_note_volume(int freq, int dur, double ratio, int tempo) {
 	for(int i = 0; i < duration; i++)
 	{
 		SET_BIT(PORTB,3);
-		wait_avr(freq*(1-ratio));
+		wait_avr_music(freq*(1-ratio));
 		CLR_BIT(PORTB,3);
-		wait_avr(freq*ratio);
+		wait_avr_music(freq*ratio);
 	}
 	
 }
@@ -40,7 +50,7 @@ void play_music(struct note *song,int numNotes)
 	{
 		if ((i > 0) && (song[i].freq == song[i-1].freq)) {
 			// int delay = song[i].duration * 0.01;
-			wait_avr(5);
+			wait_avr_music(5);
 		}
 		play_note(song[i].freq, song[i].duration);
 		
@@ -54,7 +64,7 @@ void play_music_volume(struct note *song,int numNotes, double ratio, int tempo)
 	{
 		if ((i > 0) && (song[i].freq == song[i-1].freq)) {
 			// int delay = song[i].duration * 0.01;
-			wait_avr(5);
+			wait_avr_music(5);
 		}
 		play_note_volume(song[i].freq*2, (song[i].duration), ratio, tempo);
 		

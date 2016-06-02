@@ -21,6 +21,7 @@ void playABC(int tempo, double volumeRatio);
 void play_note_volume(int freq, int dur, double ratio, int tempo);
 void play_music_volume(struct note *song,int numNotes, double ratio, int tempo);
 void playHotCrossBunsVolume(int tempo);
+void wait_avr_music(unsigned short msec);
 
 
 
