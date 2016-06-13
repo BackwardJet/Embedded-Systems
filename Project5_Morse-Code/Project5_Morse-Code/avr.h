@@ -1,9 +1,9 @@
 #ifndef __avr__
 #define __avr__
 
-//#include <avr/interrupt.h>
-//#include <avr/pgmspace.h>
-//#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <avr/pgmspace.h>
+#include <avr/io.h>
 
 #define XTAL_FRQ 8000000lu
 
